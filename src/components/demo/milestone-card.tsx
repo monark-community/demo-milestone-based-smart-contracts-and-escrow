@@ -276,7 +276,7 @@ export function MilestoneCard({
 
   return (
     <li id={m.id} className={cn("scroll-mt-24 rounded-3xl border bg-card p-5 sm:p-6", isNext && active && "border-primary/60", m.status === "refunded" && "opacity-80")}>
-      <div className="flex items-start gap-4">
+      <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
         <span
           aria-hidden="true"
           className={cn(
@@ -287,7 +287,7 @@ export function MilestoneCard({
         >
           {m.status === "released" ? <CheckIcon className={cn("size-4", fresh && "mm-stamp")} strokeWidth={3} /> : index + 1}
         </span>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 basis-[13rem]">
           <div className="flex flex-wrap items-center gap-2">
             {isNext && active ? <span className="eyebrow text-primary-ink">{mc.next}</span> : null}
             <Badge
@@ -301,8 +301,8 @@ export function MilestoneCard({
           <h3 className="mt-1.5 text-lg font-bold">{m.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{m.deliverable}</p>
         </div>
-        <div className="shrink-0 text-right">
-          <Amount value={m.amount} token={a.token} locale={locale} className="items-end text-base font-bold" />
+        <div className="ml-[3.25rem] flex shrink-0 items-baseline gap-2 sm:ml-0 sm:block sm:text-right">
+          <Amount value={m.amount} token={a.token} locale={locale} className="text-base font-bold sm:items-end" />
           <p className="mt-0.5 text-xs text-muted-foreground">{t(mc.share, { pct: formatPercent(m.bps / 10_000, locale) })}</p>
         </div>
       </div>

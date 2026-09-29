@@ -24,7 +24,8 @@ const en = {
   common: {
     product: "MilestoneMint",
     byMonark: "by Monark",
-    homeLabel: "MilestoneMint by Monark, home",
+    homeLabel: "MilestoneMint, by Monark: home",
+    demoChip: "Demo",
     skip: "Skip to content",
     nav: { overview: "Overview", how: "How it works", demo: "Demo", credits: "Credits", label: "Main" },
     launchDemo: "Launch demo",
@@ -38,6 +39,7 @@ const en = {
     footer: {
       product: "MilestoneMint locks a budget once and pays each stage of the work the moment it's signed off.",
       productNav: "MilestoneMint",
+      builtBy: "MilestoneMint is built by Monark",
       tagline: "Fostering Collaboration within the Web3 Community",
       monarkHome: "Monark home page",
       projectPage: "Project page on monark.io",

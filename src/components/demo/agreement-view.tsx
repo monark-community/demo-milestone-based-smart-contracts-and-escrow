@@ -244,6 +244,7 @@ function BudgetCard({ agreement: a, fresh, acting, now }: { agreement: Agreement
           { state: "released", label: app.track.legendReleased },
           { state: "review", label: app.track.legendReview },
           { state: "locked", label: app.track.legendLocked },
+          ...(totals.refunded > 0n ? [{ state: "refunded" as const, label: app.track.legendRefunded }] : []),
         ]}
       />
       <dl className="mt-4 flex flex-col divide-y text-sm">
@@ -253,7 +254,7 @@ function BudgetCard({ agreement: a, fresh, acting, now }: { agreement: Agreement
         {totals.refunded > 0n ? <Row label={c.budget.refunded} value={formatToken(totals.refunded, a.token, locale)} /> : null}
       </dl>
 
-      {canCancel || tx.state.phase !== "idle" ? (
+      {canCancel || (tx.state.phase !== "idle" && tx.state.phase !== "confirmed") ? (
         <div className="mt-4 flex flex-col gap-3 border-t pt-4">
           {canCancel ? (
             <Button variant="destructive" onClick={() => setOpen(true)} disabled={tx.busy}>

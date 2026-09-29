@@ -77,7 +77,7 @@ export function Dashboard() {
       </section>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start">
-        <section aria-labelledby="attention-title" className="rounded-3xl border bg-card p-5 lg:order-2">
+        <section aria-labelledby="attention-title" className="min-w-0 rounded-3xl border bg-card p-5 lg:order-2">
           <h2 id="attention-title" className="text-lg font-bold">
             {d.attention.title}
             {attention.length ? (
@@ -132,7 +132,7 @@ export function Dashboard() {
           )}
         </section>
 
-        <section aria-labelledby="list-title" className="lg:order-1">
+        <section aria-labelledby="list-title" className="min-w-0 lg:order-1">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 id="list-title" className="text-xl font-bold">
               {d.list.title}

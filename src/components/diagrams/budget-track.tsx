@@ -43,7 +43,7 @@ export function BudgetTrack({
             "relative min-w-2 overflow-hidden rounded-full",
             size === "lg" && "rounded-xl",
             s.state === "released" && "bg-primary/25",
-            s.state === "refunded" && "bg-foreground/10",
+            s.state === "refunded" && "bg-foreground/12 ring-1 ring-foreground/30 ring-inset",
             (s.state === "locked" || s.state === "changes") && "bg-muted text-muted-foreground",
             s.state === "overdue" && "bg-muted text-warning ring-2 ring-warning ring-inset",
             s.state === "review" && "bg-muted text-primary ring-2 ring-primary ring-inset"

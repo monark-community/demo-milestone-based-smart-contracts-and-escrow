@@ -36,10 +36,10 @@ function Diagram({ id, labels, nodes, edges, width, height, title }: { id: strin
   return (
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={title} className="h-auto w-full" fontFamily="inherit">
       <defs>
-        <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)" />
         </marker>
-        <marker id={`${id}-arrow-fg`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <marker id={`${id}-arrow-fg`} viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--foreground)" />
         </marker>
       </defs>

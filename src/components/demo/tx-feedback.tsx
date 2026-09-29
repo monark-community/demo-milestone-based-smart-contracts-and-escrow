@@ -54,12 +54,12 @@ export function TxFeedback({
             <Loader2Icon className="size-4 animate-spin text-primary" aria-hidden="true" />
             {pendingLabel ?? tx.pending}
           </p>
-          <TxStatus status="pending" hash={state.hash} label={tx.pending} />
+          <TxStatus status="pending" hash={state.hash} label={tx.pending} className="self-start" />
         </div>
       ) : null}
 
       {state.phase === "confirmed" && state.hash ? (
-        <TxStatus status="confirmed" hash={state.hash} label={confirmedLabel ?? tx.confirmed} />
+        <TxStatus status="confirmed" hash={state.hash} label={confirmedLabel ?? tx.confirmed} className="self-start" />
       ) : null}
 
       {state.phase === "failed" ? (

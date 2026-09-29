@@ -50,6 +50,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
       <div className="border-t">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col gap-3">
+            <p className="text-sm font-semibold">{f.builtBy}</p>
             <a href="https://www.monark.io" aria-label={f.monarkHome} className="w-fit p-2 -m-2">
               <Image src="/brand/monark-horizontal-light.svg" alt="Monark" width={150} height={40} unoptimized className="h-9 w-auto dark:hidden" />
               <Image src="/brand/monark-horizontal-dark.svg" alt="Monark" width={150} height={40} unoptimized className="hidden h-9 w-auto dark:block" />

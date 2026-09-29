@@ -39,7 +39,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           height={900}
           unoptimized
           priority
-          className="pointer-events-none absolute -top-24 -right-64 w-[760px] max-w-none opacity-[0.18] select-none sm:-right-48 lg:-top-32 lg:-right-40 lg:w-[900px] dark:opacity-[0.14]"
+          className="pointer-events-none absolute top-[27rem] -right-72 w-[760px] max-w-none opacity-[0.18] select-none sm:-right-48 lg:-top-32 lg:-right-40 lg:w-[900px] dark:opacity-[0.14]"
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-10 pb-14 sm:px-6 md:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-20 lg:pb-24">
           <div>

@@ -56,7 +56,7 @@ export function HeroTrack({ copy, locale }: { copy: Dictionary["home"]["track"];
     <figure aria-label={copy.label} className="relative w-full rounded-3xl border bg-card p-5 sm:p-7">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="truncate text-lg font-extrabold">{copy.title}</p>
+          <p className="text-lg leading-tight font-extrabold">{copy.title}</p>
           <p className="text-sm text-muted-foreground">{copy.meta}</p>
         </div>
         <p className="shrink-0 text-right font-mono text-sm font-bold tabular-nums">{nf.format(6000)} tUSDC</p>

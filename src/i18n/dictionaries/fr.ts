@@ -25,7 +25,8 @@ const fr: Dictionary = {
   common: {
     product: "MilestoneMint",
     byMonark: "par Monark",
-    homeLabel: "MilestoneMint par Monark, accueil",
+    homeLabel: "MilestoneMint, par Monark : accueil",
+    demoChip: "Démo",
     skip: "Aller au contenu",
     nav: { overview: "Aperçu", how: "Fonctionnement", demo: "Démo", credits: "Crédits", label: "Principale" },
     launchDemo: "Lancer la démo",
@@ -39,6 +40,7 @@ const fr: Dictionary = {
     footer: {
       product: "MilestoneMint bloque un budget une seule fois et verse chaque étape du travail dès qu'elle est validée.",
       productNav: "MilestoneMint",
+      builtBy: "MilestoneMint est conçu par Monark",
       tagline: "Favoriser la collaboration au sein de la communauté Web3",
       monarkHome: "Page d'accueil de Monark",
       projectPage: "Page du projet sur monark.io",
@@ -364,7 +366,7 @@ const fr: Dictionary = {
         filters: { all: "Toutes", funder: "Financeur", builder: "Prestataire", reviewer: "Valideur" },
         empty: "Vous n'avez encore aucune entente. Créez-en une, ou réinitialisez la démo pour retrouver les exemples.",
         emptyFilter: "Aucune entente ici pour l'instant.",
-        progress: "{done} jalons versés sur {n}",
+        progress: "Jalons versés : {done} sur {n}",
         you: "Vous : {role}",
         next: "Prochain : {title}",
         open: "Ouvrir l'entente",
