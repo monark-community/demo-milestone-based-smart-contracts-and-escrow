@@ -80,9 +80,9 @@ All routes live under `/{locale}` (`en`, `fr`). `/` and any locale-less path red
 | `/{locale}/pricing` | **Internal strategy review only.** Never linked, excluded from the sitemap, `noindex, nofollow`. | "Free, part of Monark" card · What it costs to use (gas only, 0% fee on releases) · Supported deployments for partners · Reasoning |
 | 404 | Friendly not-found with the vertical Monark logo and links home and to the demo. | |
 
-**Header** (standard Monark shell): "MilestoneMint by Monark" pairing → home · links: *Overview*, *How it works*, *Demo* (pill highlight on the active one) · EN/FR switch · theme toggle · primary pill *Launch demo*. Inside `/app` the primary action becomes the `connect-wallet` component and a "Demo · simulated data" badge appears. Mobile: pairing + menu button opening a full-height sheet.
+**Header** (standard Monark navbar, guidelines §2 and §10 as updated 2026-09-29): butterfly mark + "MilestoneMint" on one line (no "by Monark" in the header; aria-label "MilestoneMint, by Monark: home") → 28px → links *Overview*, *How it works*, *Demo* left-aligned (active in `foreground`) · right: Demo chip · EN/FR switch · 36px theme toggle · primary *Launch demo*. Inside `/app` the primary action becomes the `connect-wallet` component. Below `lg`: brand + menu button only; the sheet holds the links, Demo chip, EN/FR, theme toggle and the action.
 
-**Footer** (three bands): product line + links (Overview, How it works, Demo, Credits) · Monark logo + tagline, links to the project page on monark.io and the GitHub repo, social icons · "© {year} Monark · Open source", "Demo · simulated data", photo credits link.
+**Footer** (three bands): product line + links (Overview, How it works, Demo, Credits) · "MilestoneMint is built by Monark", Monark logo + tagline, links to the project page on monark.io and the GitHub repo, social icons · "© {year} Monark · Open source", "Demo · simulated data", photo credits link.
 
 ## 5. Feature highlights
 
@@ -207,3 +207,13 @@ A designed `/{locale}/pricing` page exists **for internal review only**: not lin
 - Email or push notifications: reminders are simulated in-app (toast + history entry).
 - Accounts, profiles, multi-currency budgets, fiat on/off-ramps, invoicing and tax documents.
 - A `/brand` page, a blog, or any backend.
+
+## 12. Implementation notes (as shipped)
+
+- `theme.json` from ui.monark.io was installed and the guidelines' §3 token block pasted over it in `src/app/globals.css`, plus muted `--success` / `--warning` status colours (always paired with a label). Registry components (`token-amount`, `network-badge`, `tx-status`, `wallet`, `connect-wallet`) are restyled to pills with localizable labels; `connect-wallet` was copied from its registry JSON because its bare `wallet` dependency doesn't resolve through the CLI.
+- Dependencies beyond the stack: `next-themes` (theme toggle without a flash), `sonner` (toasts), `react-jazzicon` (required by the registry `wallet`), `radix-ui` / `class-variance-authority` / `tw-animate-css` (shadcn); `playwright` as a dev dependency for `pnpm screenshots`. No recharts: every chart-like element is drawn in code.
+- The "Acting as" switch (funder / builder / reviewer) is a demo device: in the real product each role signs from its own wallet. When the visitor plays someone else, the wallet prompt shows that person as the signer. "Ask Karim to sign (simulated)" is a co-signer approving from their own wallet, so it skips the visitor's prompt.
+- The simulated oracle reports "not met" once on the seeded bounty's API-reference milestone (to show the state), then passes.
+- Toasts: bottom-right on desktop (under the sticky budget rail, away from the milestone being acted on), top of the screen under the header on phones (away from the action buttons and inline transaction status).
+- Seeded data is created in the visitor's language on first load and on "Reset demo"; deadlines are relative to today so "overdue" and "due soon" always make sense.
+- Screenshots live in `docs/screenshots/`: every page and flow at 390 and 1440 px, light and dark, in English; home, dashboard, a multi-signature release and the composer in French. The script also checks every capture for horizontal overflow.
