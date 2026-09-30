@@ -37,7 +37,7 @@ const en = {
     demoBadge: "Demo · simulated data",
     disclaimer: "Testnet demo · not financial advice · no real funds",
     footer: {
-      product: "MilestoneMint locks a budget once and pays each stage of the work the moment it's signed off.",
+      product: "Lock a budget once. Pay each stage when it's signed off.",
       productNav: "MilestoneMint",
       builtBy: "MilestoneMint is built by Monark",
       tagline: "Fostering Collaboration within the Web3 Community",
@@ -52,7 +52,7 @@ const en = {
     notFound: {
       eyebrow: "Error 404",
       title: "This milestone doesn't exist.",
-      body: "The link may be old or mistyped. Nothing was locked or lost: head back home or open the demo.",
+      body: "The link may be old or mistyped.",
       home: "Back to home",
       demo: "Open the demo",
     },
@@ -60,11 +60,10 @@ const en = {
   },
 
   home: {
-    eyebrow: "Escrow module · Monark",
     title: "Funding that unlocks as the work lands.",
-    sub: "Lock a grant, bounty or contract budget once. MilestoneMint pays each stage to the builder the moment it's signed off, with a receipt both sides can check.",
+    sub: "Lock the budget once. Each stage is paid the moment it's signed off.",
     ctaPrimary: "Launch the demo",
-    ctaSecondary: "See how it works",
+    ctaSecondary: "How it works",
     track: {
       label: "Example agreement: a 6,000 tUSDC grant in four milestones, the second one being signed off and released",
       title: "Wiki module: offline mode",
@@ -74,55 +73,45 @@ const en = {
       milestones: ["Spec", "Sync engine", "Conflict UI", "Release"],
       states: { review: "In review", signing: "{n} of 3 signatures", released: "Released to Léa" },
     },
-    outcomes: {
-      title: "Trust the plan, not each other's patience",
-      items: [
-        { title: "Start knowing the money is there.", body: "The whole budget is locked in escrow (held by the contract, not by either side) from day one." },
-        { title: "Pay only for delivered work.", body: "Each share unlocks when the people you chose sign off, never before." },
-        { title: "Settle every question with a receipt.", body: "Submissions, approvals, releases and refunds are all on the record, exportable to CSV." },
-      ],
-    },
     lifecycle: {
       title: "How an agreement moves",
-      intro: "Four steps per milestone, repeated until the work is done.",
       steps: [
-        { title: "Lock the budget", body: "The funder deposits the full amount into the agreement's contract." },
-        { title: "Deliver a milestone", body: "The builder submits the work with a link to the evidence." },
-        { title: "Validate it", body: "The funder, a panel of reviewers or an automatic check signs off, or asks for changes." },
-        { title: "Release the share", body: "The milestone's share goes straight to the builder, with a receipt." },
+        { title: "Lock the budget", body: "It sits in escrow, held by the contract." },
+        { title: "Deliver a milestone", body: "The builder submits a link to the work." },
+        { title: "Sign it off", body: "Or send it back with a note." },
+        { title: "Release the share", body: "Paid to the builder, with a receipt." },
       ],
       refund: {
         title: "If the work stalls",
-        body: "Past a deadline, the funder can send a reminder, or cancel and get back everything not yet released. Released shares stay paid.",
+        body: "The funder can cancel and get back what isn't released.",
       },
     },
     rules: {
       title: "Choose who signs off",
-      intro: "Each milestone has its own rule, so a quick translation and a big module can live in the same agreement.",
       items: [
-        { title: "The funder", body: "Simple and quick for small bounties and one-to-one work.", seal: "1 of 1" },
-        { title: "A panel of reviewers", body: "2 of 3 mentors must agree, so no single person can release money alone.", seal: "2 of 3" },
-        { title: "An automatic check", body: "An oracle (a service that reports a public fact to the contract) confirms \"pull request merged\" or \"release published\".", seal: "Oracle" },
+        { title: "The funder", body: "Quick, for small bounties.", seal: "1 of 1" },
+        { title: "A panel of reviewers", body: "2 of 3 must agree. No one releases money alone.", seal: "2 of 3" },
+        { title: "An automatic check", body: "An oracle confirms a public fact, like a merged pull request.", seal: "Oracle" },
       ],
     },
     who: {
-      title: "Built for work that happens in stages",
+      title: "Built for work in stages",
       items: [
         {
           title: "Builder grants",
-          body: "Fund a Monark module in four stages and let mentors sign off each one.",
+          body: "Fund a module in stages, signed off by mentors.",
           alt: "Students showing a project on their laptops to visitors at a university showcase",
           plan: "15% spec · 35% engine · 30% UI · 20% release",
         },
         {
           title: "Open-source bounties",
-          body: "Pay the moment the pull request is merged, without anyone pressing a button.",
+          body: "Paid the moment the pull request is merged.",
           alt: "A developer typing code on a laptop by a window, a plant and a mug beside it",
-          plan: "Paid automatically when PR #412 is merged",
+          plan: "100% when PR #412 is merged",
         },
         {
           title: "Local contract work",
-          body: "A co-op pays its carpenter per stage of the build, and both see what's left.",
+          body: "A co-op pays its carpenter stage by stage.",
           alt: "Two people cutting and chiselling a timber beam outdoors under a canopy",
           plan: "40% frame · 40% roof · 20% handover",
         },
@@ -131,33 +120,29 @@ const en = {
     faq: {
       title: "Questions, answered",
       items: [
-        { q: "Is this real money?", a: "No. This is a testnet demo with simulated data: no real funds, no real wallet, nothing leaves your browser." },
-        { q: "What is escrow, here?", a: "Money held by the agreement's smart contract (a program on the blockchain) instead of by the funder or the builder. Only the rules you set can move it." },
-        { q: "What if the funder never approves?", a: "Choose reviewers or an automatic check instead of the funder alone, and set deadlines. The history shows who is waiting on whom." },
-        { q: "Can the funder take the money back?", a: "Only what hasn't been released, by cancelling the rest of the agreement. Released shares are the builder's for good." },
-        { q: "What is an oracle?", a: "A service that reports a public fact (a merged pull request, a published release) to the contract so it can release funds without a human signature." },
-        { q: "Does MilestoneMint take a cut?", a: "No. The builder receives 100% of each share; on a real network the only cost is the transaction fee (gas)." },
+        { q: "Is this real money?", a: "No. It's a testnet demo: simulated funds, and nothing leaves your browser." },
+        { q: "What if the funder never approves?", a: "Pick reviewers or an automatic check instead, and set deadlines." },
+        { q: "Can the funder take the money back?", a: "Only what hasn't been released. Released shares are the builder's for good." },
+        { q: "Does MilestoneMint take a cut?", a: "No. The builder gets 100% of each share; the only cost is the network fee (gas)." },
       ],
     },
-    closing: { title: "Lock your first budget in two minutes.", body: "Play the funder, the builder and the reviewers in one sitting. Everything is simulated.", cta: "Launch the demo" },
+    closing: { title: "Lock your first budget in two minutes.", cta: "Launch the demo" },
   },
 
   how: {
-    eyebrow: "How it works",
     title: "Escrow, one milestone at a time",
-    intro:
-      "MilestoneMint is a small contract per agreement. It holds the budget, knows the milestone plan and who may sign each part off, and pays or refunds only by those rules. Here is everything it does, in plain words.",
+    intro: "One small contract per agreement holds the budget and pays only by its rules.",
     roles: {
       title: "Three roles",
       items: [
-        { title: "Funder", body: "Locks the budget, writes the plan, can request changes, send reminders, and cancel what's left." },
-        { title: "Builder", body: "Does the work, submits each milestone with evidence, and receives each share directly." },
-        { title: "Reviewers", body: "Sign milestones off. With a k-of-n rule (a multi-signature), the release needs k of them." },
+        { title: "Funder", body: "Locks the budget and writes the plan." },
+        { title: "Builder", body: "Delivers each milestone and gets paid." },
+        { title: "Reviewers", body: "Sign off; k of n must agree (a multi-signature)." },
       ],
     },
     states: {
       title: "The life of a milestone",
-      intro: "Every milestone moves through the same few states. Money only moves on the two thick arrows.",
+      intro: "Money only moves on the two thick arrows.",
       labels: {
         locked: "Locked",
         submitted: "In review",
@@ -170,19 +155,19 @@ const en = {
         resubmit: "resubmit",
         cancel: "funder cancels",
       },
-      caption: "Locked and in-review money is still in escrow. Released money belongs to the builder; refunded money is back with the funder.",
+      caption: "Locked and in-review money is still in escrow.",
     },
     rules: {
       title: "Three ways to sign off",
       items: [
-        { title: "Funder approves", body: "One signature. Best for small bounties where the funder can judge the work directly." },
-        { title: "k of n reviewers", body: "A panel (for example 2 of 3 mentors). Each approval is a signature on-chain; the one that reaches k also releases the share in the same transaction." },
-        { title: "Automatic check", body: "An oracle reads a public fact such as \"PR #412 merged\". Anyone can trigger the check; if the condition isn't met yet, nothing moves and it can be run again later." },
+        { title: "Funder approves", body: "One signature. Best for small bounties." },
+        { title: "k of n reviewers", body: "The signature that reaches k also releases the share." },
+        { title: "Automatic check", body: "An oracle (a service reporting a public fact) confirms it. Not met? Run it again later." },
       ],
     },
     example: {
       title: "A worked example",
-      intro: "A 6,000 tUSDC builder grant for the wiki's offline mode, reviewed by three mentors (2 of 3 must sign).",
+      intro: "A 6,000 tUSDC grant, signed off by 2 of 3 mentors.",
       headers: ["Milestone", "Share", "Amount", "Signed off by"],
       rows: [
         ["Design spec and RFC", "15%", "900 tUSDC", "2 of 3 reviewers"],
@@ -190,19 +175,19 @@ const en = {
         ["Conflict resolution UI", "30%", "1,800 tUSDC", "2 of 3 reviewers"],
         ["Docs and release", "20%", "1,200 tUSDC", "Automatic check: release published"],
       ],
-      note: "Shares must add up to exactly 100%. When an amount doesn't divide evenly, the last milestone takes the few leftover base units, so the parts always equal the total.",
+      note: "Shares add up to exactly 100%; the last milestone takes any rounding leftover.",
     },
     deadlines: {
       title: "Deadlines, reminders and refunds",
       items: [
-        "Each milestone has a deadline. Past it, with nothing submitted, the milestone shows as overdue on both sides.",
-        "The funder can send a reminder (off-chain, recorded in the history).",
-        "The funder can cancel the rest of the agreement: every milestone not yet released is refunded in one transaction. Released shares are never clawed back, and a submission under review is refunded too, so settle reviews first.",
+        "Past its deadline, a milestone shows as overdue; the funder can send a reminder.",
+        "Cancelling refunds everything unreleased, even a milestone in review.",
       ],
     },
     dev: {
       title: "For developers",
-      intro: "The contract interface the demo simulates. The demo's data layer (src/lib/demo) mirrors it one function per state change, so wagmi and viem could replace it without touching the UI.",
+      intro: "The demo's data layer mirrors the contract one function per state change.",
+      show: "Show the contract interface",
       mapping: [
         ["lockFunds", "Deploy the agreement and deposit the budget", "lockAgreement()"],
         ["submit", "Builder marks a milestone delivered", "submitMilestone()"],
@@ -213,16 +198,14 @@ const en = {
       ] as [string, string, string][],
       headers: ["Function", "What it does", "Demo equivalent"],
     },
-    cta: { title: "See it move", body: "Open the demo and release a milestone yourself.", button: "Launch the demo" },
+    cta: { title: "See it move", button: "Launch the demo" },
   },
 
   credits: {
     title: "Credits",
-    intro: "MilestoneMint is open source and built by the Monark community. These are the people and projects whose work appears on this site.",
     photosTitle: "Photography",
     photosBody: "All photos come from Unsplash under the free Unsplash License.",
     photoBy: "Photo by {name}",
-    usedOn: "Home page, \"Built for work that happens in stages\"",
     typeTitle: "Type and icons",
     typeItems: [
       "Nunito Sans, by Vernon Adams, Jacques Le Bailly and Manvel Shmavonyan (SIL Open Font License), via Google Fonts.",
@@ -230,7 +213,7 @@ const en = {
       "Diagrams drawn in code for this site.",
     ],
     brandTitle: "Monark brand",
-    brandBody: "The Monark butterfly, logos, mesh illustration and social icons belong to Monark and are used here under its brand guidelines.",
+    brandBody: "The Monark butterfly, logos, mesh illustration and social icons belong to Monark.",
   },
 
   pricing: {
@@ -266,8 +249,7 @@ const en = {
     close: "Close",
     gate: {
       title: "Connect to see your agreements",
-      body: "Connect a demo wallet to see your agreements. Nothing is signed for real.",
-      features: ["Four example agreements: grants, a bounty and contract work", "Play the funder, the builder and the reviewers", "Every transaction can confirm or fail"],
+      body: "Nothing is signed for real.",
       connect: "Connect demo wallet",
       rejected: "You declined the sign-in request. Nothing was shared.",
     },
@@ -310,7 +292,7 @@ const en = {
       confirmed: "Confirmed",
       failed: "Failed",
       rejected: "You rejected the request in your wallet. Nothing was sent.",
-      reverted: "The transaction failed on the simulated network. Nothing changed; everything is exactly as it was.",
+      reverted: "The transaction failed on the simulated network. Nothing changed.",
       retry: "Try again",
       dismiss: "Dismiss",
     },
@@ -320,11 +302,11 @@ const en = {
       slow: "Slow network",
       slowHint: "Transactions take 3 to 6 seconds.",
       failNext: "Fail the next transaction",
-      failNextHint: "The next transaction reverts on the network.",
+      failNextHint: "The next transaction fails.",
       reset: "Reset demo",
-      resetHint: "Bring back the four example agreements and clear your changes.",
+      resetHint: "Bring back the four examples.",
       resetConfirm: "Reset everything?",
-      resetConfirmBody: "Your agreements and history in this browser will be replaced by the examples.",
+      resetConfirmBody: "Your changes will be replaced.",
       resetDo: "Reset demo",
       cancel: "Cancel",
       resetDone: "Demo reset. The examples are back.",
@@ -336,7 +318,6 @@ const en = {
     rules: { funder: "Funder approves", reviewers: "{k} of {n} reviewers", check: "Automatic check" },
     dashboard: {
       title: "Your agreements",
-      greeting: "Signed in as {name}",
       create: "New agreement",
       summary: {
         label: "Summary",
@@ -345,10 +326,11 @@ const en = {
         waiting: "Waiting on you",
         overdue: "Overdue",
         usdNote: "In US dollars at reference testnet prices.",
+        usdInfo: "About these amounts",
       },
       attention: {
         title: "Needs your attention",
-        empty: "Nothing is waiting on you. Nice.",
+        empty: "Nothing is waiting on you.",
         kinds: {
           review: "Review the submission",
           sign: "Your signature is needed",
@@ -363,9 +345,9 @@ const en = {
         title: "Agreements",
         filterLabel: "Show agreements where you are",
         filters: { all: "All", funder: "Funding", builder: "Building", reviewer: "Reviewing" },
-        empty: "You don't have any agreements yet. Create one, or reset the demo to bring back the examples.",
+        empty: "No agreements yet.",
         emptyFilter: "No agreements here yet.",
-        progress: "{done} of {n} milestones released",
+        progress: "{done} of {n} released",
         you: "You: {role}",
         next: "Next: {title}",
         open: "Open agreement",
@@ -380,7 +362,6 @@ const en = {
     },
     composer: {
       title: "New agreement",
-      intro: "Lock a budget and split it into milestones. The builder sees the money is there from the start.",
       back: "Back to your agreements",
       templates: {
         title: "Start from",
@@ -435,7 +416,8 @@ const en = {
       },
       milestones: {
         title: "Milestones",
-        intro: "Each milestone gets a share of the budget, a deadline and a rule for who signs it off.",
+        intro: "Each milestone gets a share of the budget, a deadline and a sign-off rule.",
+        info: "About milestones",
         n: "Milestone {n}",
         add: "Add a milestone",
         remove: "Remove milestone {n}",
@@ -455,7 +437,7 @@ const en = {
         reviewerAddress: "Reviewer {n} address",
         addReviewer: "Add a reviewer",
         removeReviewer: "Remove reviewer {n}",
-        condition: "Condition the oracle checks",
+        condition: "Oracle condition",
         conditionPh: "e.g. Pull request #120 merged into your repo",
       },
       ruler: {
@@ -467,10 +449,8 @@ const en = {
       review: {
         title: "Review",
         total: "Total to lock",
-        after: "Balance after locking",
-        each: "Per milestone",
         lock: "Lock {amount}",
-        note: "The whole budget moves from your wallet into the agreement's contract. You can only get back what hasn't been released.",
+        note: "You can only get back what hasn't been released.",
       },
       errors: {
         title: "Give the agreement a title.",
@@ -489,25 +469,26 @@ const en = {
         summary: "Fix the highlighted fields to continue.",
       },
       pending: "Locking funds in escrow…",
-      failed: "Locking failed on the simulated network. No funds left your wallet.",
+      failed: "Locking failed on the simulated network. No funds moved.",
     },
     agreement: {
       back: "All agreements",
       notFound: {
         title: "We couldn't find this agreement.",
-        body: "It may have been removed when the demo was reset.",
+        body: "A demo reset may have removed it.",
         cta: "Back to your agreements",
       },
-      parties: { funder: "Funder", builder: "Builder", contract: "Contract", network: "Network", created: "Created" },
+      parties: { funder: "Funder", builder: "Builder", contract: "Contract" },
       actingAs: {
         label: "Acting as",
-        hint: "In the real app each person signs from their own wallet. Here you can play every role.",
+        hint: "In the real app, each person signs from their own wallet.",
+        info: "About roles",
         you: "you",
       },
-      budget: { title: "Budget", locked: "Locked in escrow", inReview: "of which in review", released: "Released to the builder", refunded: "Refunded to the funder", of: "of {total}" },
+      budget: { title: "Budget", locked: "Locked in escrow", inReview: "of which in review", released: "Released", refunded: "Refunded", of: "of {total}" },
       tabs: { milestones: "Milestones", history: "History", details: "Details" },
       banners: {
-        completed: "Every milestone has been released. This agreement is complete.",
+        completed: "Every milestone is released.",
         cancelled: "This agreement was cancelled. Unreleased milestones went back to the funder.",
       },
       milestone: {
@@ -516,7 +497,7 @@ const en = {
         dueTomorrow: "tomorrow",
         dueToday: "today",
         overdueBy: "{n} days overdue",
-        share: "{pct} of budget",
+        share: "{pct}",
         signatures: "{n} of {k} signatures",
         signed: "Signed",
         notSigned: "Not yet",
@@ -527,15 +508,9 @@ const en = {
         releasedOn: "Released {date}",
         refunded: "Refunded to the funder",
         receipt: "Receipt",
-        noActionFor: {
-          funder: "Nothing for the funder to do on this milestone right now.",
-          builder: "Nothing for the builder to do on this milestone right now.",
-          reviewer: "Nothing for reviewers to do on this milestone right now.",
-        },
         waitingBuilder: "Waiting for the builder to submit.",
         waitingReview: "Waiting for sign-off.",
         waitingCheck: "Waiting for the automatic check.",
-        notSigner: "This milestone is signed off by {who}.",
         next: "Next up",
       },
       actions: {
@@ -552,7 +527,7 @@ const en = {
       },
       submitDialog: {
         title: "Submit “{milestone}”",
-        body: "Point the reviewers to the evidence. The share stays locked until the milestone is signed off.",
+        body: "The share stays locked until sign-off.",
         link: "Link to the evidence",
         linkPh: "https://github.com/…",
         note: "Note for the reviewers (optional)",
@@ -563,7 +538,7 @@ const en = {
       },
       changesDialog: {
         title: "Request changes on “{milestone}”",
-        body: "The builder sees your note and can resubmit. The money stays locked.",
+        body: "The money stays locked.",
         note: "What needs to change",
         notePh: "Be specific, so the next submission is the last one.",
         send: "Request changes",
@@ -572,10 +547,10 @@ const en = {
       },
       refundDialog: {
         title: "Cancel and refund the rest?",
-        body: "Every milestone that hasn't been released goes back to the funder in one transaction. This can't be undone.",
+        body: "This can't be undone.",
         returns: "Refunded to the funder",
         stays: "Stays with the builder (already released)",
-        inReview: "One milestone is in review. Cancelling refunds it too.",
+        inReview: "The milestone in review is refunded too.",
         confirm: "Cancel and refund",
         back: "Keep the agreement",
       },
@@ -586,7 +561,7 @@ const en = {
         check: "Asking the oracle…",
         refund: "Refunding unreleased milestones…",
       },
-      checkFailed: "The check didn't pass: {reason}. The share stays locked; you can run it again later.",
+      checkFailed: "The check didn't pass: {reason}.",
       details: {
         summary: "Description",
         kind: "Type",
@@ -599,7 +574,7 @@ const en = {
     },
     history: {
       title: "History",
-      empty: "Nothing has happened yet. Lock the budget to see the first entry.",
+      empty: "Nothing has happened yet.",
       export: "Export CSV",
       filterLabel: "Show",
       filters: { all: "All", money: "Money", reviews: "Reviews", other: "Reminders" },
@@ -619,13 +594,8 @@ const en = {
       filename: "milestonemint-history",
     },
     toasts: {
-      locked: "Funds locked. The builder can see the budget.",
-      submitted: "Submitted for review.",
-      signed: "Signature recorded. {n} of {k}.",
       released: "Released {amount} to {name}.",
-      changes: "Changes requested. The builder has been told.",
       reminder: "Reminder sent to {name}.",
-      refunded: "Refunded {amount} to {name}.",
       csv: "History exported.",
     },
   },

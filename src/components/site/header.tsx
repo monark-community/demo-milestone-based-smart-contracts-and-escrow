@@ -31,8 +31,9 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/85">
       <div className="mx-auto flex h-16 max-w-6xl items-center px-4 sm:px-6">
         <Brand href={href(locale)} product={c.product} label={c.homeLabel} />
-        <nav aria-label={c.nav.label} className="ml-4 hidden lg:block">
-          <NavLinks items={items} className="flex items-center gap-1" />
+        {/* Links: 28px after the brand (20px margin + the link's own 8px padding). */}
+        <nav aria-label={c.nav.label} className="ml-5 hidden lg:block">
+          <NavLinks items={items} className="flex items-center gap-1.5" />
         </nav>
         <div className="ml-auto flex items-center gap-2.5">
           <div className="hidden items-center gap-2.5 lg:flex">

@@ -12,11 +12,12 @@ import {
   ScanSearchIcon,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 
 import { BudgetTrack, Legend } from "@/components/diagrams/budget-track"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { InfoTip } from "@/components/ui/info-tip"
 import { href } from "@/i18n/config"
 import { t } from "@/i18n/t"
 import { attentionFor, currentMilestone, daysUntil, portfolio, primaryRole, rolesOf, type AttentionKind } from "@/lib/demo/agreements"
@@ -53,11 +54,8 @@ export function Dashboard() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-display sm:text-4xl">{d.title}</h1>
-          <p className="mt-1 text-muted-foreground">{t(d.greeting, { name: demo.wallet.name })}</p>
-        </div>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-extrabold tracking-display sm:text-4xl">{d.title}</h1>
         <Button asChild size="lg" className="w-full sm:w-auto">
           <Link href={href(locale, "/app/new")}>
             <PlusIcon aria-hidden="true" />
@@ -68,12 +66,19 @@ export function Dashboard() {
 
       <section aria-label={d.summary.label}>
         <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <Stat label={d.summary.locked} value={formatUsd(stats.locked, locale)} />
+          <Stat
+            label={d.summary.locked}
+            value={formatUsd(stats.locked, locale)}
+            info={
+              <InfoTip label={d.summary.usdInfo} className="-my-2 size-7">
+                {d.summary.usdNote}
+              </InfoTip>
+            }
+          />
           <Stat label={d.summary.released} value={formatUsd(stats.released, locale)} accent />
           <Stat label={d.summary.waiting} value={String(stats.waiting)} />
           <Stat label={d.summary.overdue} value={String(stats.overdue)} warn={stats.overdue > 0} />
         </dl>
-        <p className="mt-2 text-xs text-muted-foreground">{d.summary.usdNote}</p>
       </section>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start">
@@ -190,10 +195,13 @@ export function Dashboard() {
   )
 }
 
-function Stat({ label, value, accent, warn }: { label: string; value: string; accent?: boolean; warn?: boolean }) {
+function Stat({ label, value, accent, warn, info }: { label: string; value: string; accent?: boolean; warn?: boolean; info?: ReactNode }) {
   return (
     <div className={cn("rounded-2xl border bg-card p-4", warn && "border-warning/50")}>
-      <dt className="text-xs font-semibold text-muted-foreground sm:text-sm">{label}</dt>
+      <dt className="flex items-center justify-between gap-1 text-xs font-semibold text-muted-foreground sm:text-sm">
+        {label}
+        {info}
+      </dt>
       <dd className={cn("mt-1 font-mono text-xl font-bold tabular-nums sm:text-2xl", accent && "text-primary-ink", warn && "text-warning")}>{value}</dd>
     </div>
   )
@@ -214,7 +222,7 @@ function AgreementRow({ agreement: a, address, now }: { agreement: Agreement; ad
       >
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{app.kinds[a.kind]}</Badge>
-          <Badge variant={a.status === "completed" ? "success" : a.status === "cancelled" ? "secondary" : "outline"}>{app.status[a.status]}</Badge>
+          {a.status !== "active" ? <Badge variant={a.status === "completed" ? "success" : "secondary"}>{app.status[a.status]}</Badge> : null}
           <span className="ml-auto text-xs font-semibold text-muted-foreground">{t(d.you, { role: app.roles[role] })}</span>
         </div>
         <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">

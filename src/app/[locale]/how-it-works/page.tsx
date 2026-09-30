@@ -1,10 +1,9 @@
-import { ArrowRightIcon, HardHatIcon, ScanSearchIcon, UserCheckIcon, UsersIcon, WalletIcon } from "lucide-react"
+import { ArrowRightIcon, ChevronDownIcon, HardHatIcon, ScanSearchIcon, UserCheckIcon, UsersIcon, WalletIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { StateMachine } from "@/components/diagrams/state-machine"
-import { SectionDivider } from "@/components/site/section-divider"
 import { Button } from "@/components/ui/button"
 import { href, isLocale } from "@/i18n/config"
 import { getDictionary } from "@/i18n"
@@ -28,8 +27,7 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
   return (
     <div className="flex flex-col">
       <section className="mx-auto w-full max-w-6xl px-4 pt-12 pb-10 sm:px-6 lg:pt-16">
-        <p className="eyebrow text-primary-ink">{h.eyebrow}</p>
-        <h1 className="mt-3 max-w-[20ch] text-4xl font-extrabold tracking-display sm:text-5xl">{h.title}</h1>
+        <h1 className="max-w-[20ch] text-4xl font-extrabold tracking-display sm:text-5xl">{h.title}</h1>
         <p className="mt-5 max-w-[68ch] text-lg text-muted-foreground">{h.intro}</p>
       </section>
 
@@ -116,8 +114,6 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
         <p className="mt-4 max-w-[68ch] text-sm text-muted-foreground">{h.example.note}</p>
       </section>
 
-      <SectionDivider />
-
       <section aria-labelledby="deadlines-title" className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
         <h2 id="deadlines-title" className="text-2xl font-bold sm:text-[2rem]">
           {h.deadlines.title}
@@ -138,30 +134,36 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
             {h.dev.title}
           </h2>
           <p className="mt-2 max-w-[68ch] text-muted-foreground">{h.dev.intro}</p>
-          <div className="mt-6 overflow-x-auto rounded-3xl border bg-background">
-            <table className="w-full min-w-[34rem] text-left text-sm">
-              <thead className="bg-muted/60 text-xs text-muted-foreground">
-                <tr>
-                  {h.dev.headers.map((th) => (
-                    <th key={th} scope="col" className="px-4 py-3 font-bold">
-                      {th}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {h.dev.mapping.map(([fn, what, demo]) => (
-                  <tr key={fn}>
-                    <th scope="row" className="px-4 py-3 font-mono text-sm font-bold text-primary-ink">
-                      {fn}()
-                    </th>
-                    <td className="px-4 py-3">{what}</td>
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{demo}</td>
+          <details className="group mt-6">
+            <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full border px-4 text-sm font-bold hover:bg-muted [&::-webkit-details-marker]:hidden">
+              <ChevronDownIcon className="size-4 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+              {h.dev.show}
+            </summary>
+            <div className="mt-4 overflow-x-auto rounded-3xl border bg-background">
+              <table className="w-full min-w-[34rem] text-left text-sm">
+                <thead className="bg-muted/60 text-xs text-muted-foreground">
+                  <tr>
+                    {h.dev.headers.map((th) => (
+                      <th key={th} scope="col" className="px-4 py-3 font-bold">
+                        {th}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y">
+                  {h.dev.mapping.map(([fn, what, demo]) => (
+                    <tr key={fn}>
+                      <th scope="row" className="px-4 py-3 font-mono text-sm font-bold text-primary-ink">
+                        {fn}()
+                      </th>
+                      <td className="px-4 py-3">{what}</td>
+                      <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{demo}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -169,7 +171,6 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
         <h2 id="cta-title" className="text-3xl font-extrabold tracking-display">
           {h.cta.title}
         </h2>
-        <p className="mt-2 text-muted-foreground">{h.cta.body}</p>
         <Button asChild size="lg" className="mt-6">
           <Link href={href(locale, "/app")}>
             {h.cta.button}

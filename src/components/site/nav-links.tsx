@@ -16,6 +16,7 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
+/** The site's own page links: muted, the active page in foreground (brand guidelines §10). */
 export function NavLinks({
   items,
   className,
@@ -39,7 +40,7 @@ export function NavLinks({
               onClick={onNavigate}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "inline-flex h-9 items-center rounded-full px-3 text-sm font-semibold transition-colors duration-150",
+                "inline-flex h-9 items-center rounded-md px-2 text-sm font-semibold whitespace-nowrap transition-colors duration-150",
                 active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                 itemClassName
               )}

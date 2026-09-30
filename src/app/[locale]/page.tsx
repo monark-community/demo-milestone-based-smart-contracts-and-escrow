@@ -1,4 +1,4 @@
-import { ArrowRightIcon, GitMergeIcon, HandshakeIcon, LockKeyholeIcon, ReceiptTextIcon, ScanSearchIcon } from "lucide-react"
+import { ArrowRightIcon, GitMergeIcon, ScanSearchIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -19,8 +19,6 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   if (!isLocale(locale)) return {}
   return pageMetadata(locale, "/", null, getDictionary(locale).meta.description)
 }
-
-const OUTCOME_ICONS = [LockKeyholeIcon, HandshakeIcon, ReceiptTextIcon]
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params
@@ -43,8 +41,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-10 pb-14 sm:px-6 md:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-20 lg:pb-24">
           <div>
-            <p className="eyebrow text-primary-ink">{h.eyebrow}</p>
-            <h1 id="hero-title" className="mt-4 text-[2.25rem] leading-[1.05] font-extrabold tracking-display sm:text-5xl lg:text-[3.6rem]">
+            <h1 id="hero-title" className="text-[2.25rem] leading-[1.05] font-extrabold tracking-display sm:text-5xl lg:text-[3.6rem]">
               {h.title}
             </h1>
             <p className="mt-5 max-w-[46ch] text-lg text-muted-foreground sm:text-xl">{h.sub}</p>
@@ -59,54 +56,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 <Link href={href(locale, "/how-it-works")}>{h.ctaSecondary}</Link>
               </Button>
             </div>
-            <p className="mt-5 text-xs text-muted-foreground">{d.common.disclaimer}</p>
           </div>
           <HeroTrack copy={h.track} locale={locale} />
         </div>
       </section>
 
-      {/* Outcomes */}
-      <section aria-labelledby="outcomes-title" className="border-y bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
-          <h2 id="outcomes-title" className="max-w-[24ch] text-3xl font-bold tracking-display sm:text-[2rem]">
-            {h.outcomes.title}
-          </h2>
-          <ul className="mt-10 grid gap-8 md:grid-cols-3">
-            {h.outcomes.items.map((o, i) => {
-              const Icon = OUTCOME_ICONS[i] ?? LockKeyholeIcon
-              return (
-                <li key={o.title}>
-                  <Icon className="size-7 text-primary" strokeWidth={1.75} aria-hidden="true" />
-                  <h3 className="mt-4 text-xl font-bold">{o.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{o.body}</p>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-      </section>
-
       {/* Lifecycle */}
-      <section aria-labelledby="life-title" className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
-        <div className="md:text-center">
-          <h2 id="life-title" className="text-3xl font-bold tracking-display sm:text-[2rem]">
+      <section aria-labelledby="life-title" className="border-y bg-card">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
+          <h2 id="life-title" className="text-3xl font-bold tracking-display sm:text-[2rem] md:text-center">
             {h.lifecycle.title}
           </h2>
-          <p className="mt-3 text-muted-foreground">{h.lifecycle.intro}</p>
-        </div>
-        <div className="mt-12">
-          <Lifecycle steps={h.lifecycle.steps} refund={h.lifecycle.refund} />
+          <div className="mt-12">
+            <Lifecycle steps={h.lifecycle.steps} refund={h.lifecycle.refund} />
+          </div>
         </div>
       </section>
-
-      <SectionDivider />
 
       {/* Rules */}
       <section aria-labelledby="rules-title" className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
         <h2 id="rules-title" className="text-3xl font-bold tracking-display sm:text-[2rem]">
           {h.rules.title}
         </h2>
-        <p className="mt-3 max-w-[60ch] text-muted-foreground">{h.rules.intro}</p>
         <ul className="mt-10 grid gap-5 md:grid-cols-3">
           {h.rules.items.map((r, i) => (
             <li key={r.title} className="flex flex-col rounded-3xl border bg-card p-6">
@@ -194,7 +165,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <h2 id="closing-title" className="text-3xl font-extrabold tracking-display sm:text-4xl">
           {h.closing.title}
         </h2>
-        <p className="mx-auto mt-3 max-w-[48ch] text-muted-foreground">{h.closing.body}</p>
         <Button asChild size="lg" className="mt-8">
           <Link href={href(locale, "/app")}>
             {h.closing.cta}

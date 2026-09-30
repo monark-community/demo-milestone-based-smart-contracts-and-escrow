@@ -38,7 +38,7 @@ const fr: Dictionary = {
     demoBadge: "Démo · données simulées",
     disclaimer: "Démo sur testnet · ceci n'est pas un conseil financier · aucun fonds réel",
     footer: {
-      product: "MilestoneMint bloque un budget une seule fois et verse chaque étape du travail dès qu'elle est validée.",
+      product: "Bloquez un budget une fois. Chaque étape validée est versée.",
       productNav: "MilestoneMint",
       builtBy: "MilestoneMint est conçu par Monark",
       tagline: "Favoriser la collaboration au sein de la communauté Web3",
@@ -53,7 +53,7 @@ const fr: Dictionary = {
     notFound: {
       eyebrow: "Erreur 404",
       title: "Ce jalon n'existe pas.",
-      body: "Le lien est peut-être ancien ou mal saisi. Rien n'a été bloqué ni perdu : revenez à l'accueil ou ouvrez la démo.",
+      body: "Le lien est peut-être ancien ou mal saisi.",
       home: "Retour à l'accueil",
       demo: "Ouvrir la démo",
     },
@@ -61,11 +61,10 @@ const fr: Dictionary = {
   },
 
   home: {
-    eyebrow: "Module de séquestre · Monark",
     title: "Des fonds qui se débloquent au fil du travail livré.",
-    sub: "Bloquez une seule fois le budget d'une subvention, d'une prime ou d'un contrat. MilestoneMint verse chaque étape au prestataire dès qu'elle est validée, avec un reçu que les deux parties peuvent vérifier.",
+    sub: "Bloquez le budget une seule fois. Chaque étape est versée dès qu'elle est validée.",
     ctaPrimary: "Lancer la démo",
-    ctaSecondary: "Voir le fonctionnement",
+    ctaSecondary: "Fonctionnement",
     track: {
       label: "Exemple d'entente : une subvention de 6 000 tUSDC en quatre jalons, le deuxième en cours de validation puis versé",
       title: "Module wiki : mode hors ligne",
@@ -75,55 +74,45 @@ const fr: Dictionary = {
       milestones: ["Spéc.", "Synchro", "Conflits", "Version"],
       states: { review: "En revue", signing: "{n} signatures sur 3", released: "Versé à Léa" },
     },
-    outcomes: {
-      title: "Faites confiance au plan, pas à la patience de chacun",
-      items: [
-        { title: "Commencez en sachant que l'argent est là.", body: "Tout le budget est bloqué en séquestre (détenu par le contrat, pas par l'une des parties) dès le premier jour." },
-        { title: "Ne payez que le travail livré.", body: "Chaque part se débloque quand les personnes choisies la valident, jamais avant." },
-        { title: "Réglez chaque question avec un reçu.", body: "Remises, validations, versements et remboursements : tout est consigné et exportable en CSV." },
-      ],
-    },
     lifecycle: {
       title: "Le parcours d'une entente",
-      intro: "Quatre étapes par jalon, jusqu'à ce que le travail soit terminé.",
       steps: [
-        { title: "Bloquer le budget", body: "Le financeur dépose le montant complet dans le contrat de l'entente." },
-        { title: "Livrer un jalon", body: "Le prestataire remet le travail avec un lien vers la preuve." },
-        { title: "Le valider", body: "Le financeur, un comité de valideurs ou une vérification automatique approuve, ou demande des modifications." },
-        { title: "Verser la part", body: "La part du jalon va directement au prestataire, avec un reçu." },
+        { title: "Bloquer le budget", body: "Il reste en séquestre, détenu par le contrat." },
+        { title: "Livrer un jalon", body: "Le prestataire remet un lien vers le travail." },
+        { title: "Le valider", body: "Ou le renvoyer avec une note." },
+        { title: "Verser la part", body: "Payée au prestataire, avec un reçu." },
       ],
       refund: {
         title: "Si le travail s'enlise",
-        body: "Une fois l'échéance passée, le financeur peut envoyer un rappel, ou annuler et récupérer tout ce qui n'a pas encore été versé. Les parts versées restent acquises.",
+        body: "Le financeur peut annuler et récupérer ce qui n'est pas versé.",
       },
     },
     rules: {
       title: "Choisissez qui valide",
-      intro: "Chaque jalon a sa propre règle : une petite traduction et un gros module peuvent cohabiter dans la même entente.",
       items: [
-        { title: "Le financeur", body: "Simple et rapide pour les petites primes et le travail en direct.", seal: "1 sur 1" },
-        { title: "Un comité de valideurs", body: "2 mentors sur 3 doivent être d'accord : personne ne peut libérer l'argent seul.", seal: "2 sur 3" },
-        { title: "Une vérification automatique", body: "Un oracle (un service qui transmet un fait public au contrat) confirme « pull request fusionnée » ou « version publiée ».", seal: "Oracle" },
+        { title: "Le financeur", body: "Rapide, pour les petites primes.", seal: "1 sur 1" },
+        { title: "Un comité de valideurs", body: "2 sur 3 doivent être d'accord. Personne ne verse seul.", seal: "2 sur 3" },
+        { title: "Une vérification automatique", body: "Un oracle confirme un fait public, comme une pull request fusionnée.", seal: "Oracle" },
       ],
     },
     who: {
-      title: "Pensé pour le travail qui avance par étapes",
+      title: "Pensé pour le travail par étapes",
       items: [
         {
           title: "Subventions aux bâtisseurs",
-          body: "Financez un module Monark en quatre étapes et laissez les mentors valider chacune.",
+          body: "Financez un module par étapes, validées par des mentors.",
           alt: "Des étudiants présentent un projet sur leurs ordinateurs à des visiteurs lors d'une vitrine universitaire",
           plan: "15 % spéc. · 35 % moteur · 30 % interface · 20 % version",
         },
         {
           title: "Primes open source",
-          body: "Payez dès que la pull request est fusionnée, sans que personne n'ait à appuyer sur un bouton.",
+          body: "Versée dès que la pull request est fusionnée.",
           alt: "Un développeur tape du code sur un ordinateur portable près d'une fenêtre, une plante et une tasse à côté",
-          plan: "Versée automatiquement à la fusion de la PR n° 412",
+          plan: "100 % à la fusion de la PR n° 412",
         },
         {
           title: "Travaux locaux",
-          body: "Une coop paie son menuisier à chaque étape du chantier, et chacun voit ce qui reste.",
+          body: "Une coop paie son menuisier étape par étape.",
           alt: "Deux personnes coupent et creusent une poutre de bois à l'extérieur, sous un abri",
           plan: "40 % charpente · 40 % toiture · 20 % livraison",
         },
@@ -132,33 +121,29 @@ const fr: Dictionary = {
     faq: {
       title: "Vos questions, nos réponses",
       items: [
-        { q: "Est-ce de l'argent réel ?", a: "Non. C'est une démo sur testnet avec des données simulées : aucun fonds réel, aucun vrai portefeuille, rien ne quitte votre navigateur." },
-        { q: "Qu'est-ce que le séquestre, ici ?", a: "De l'argent détenu par le contrat intelligent de l'entente (un programme sur la blockchain) plutôt que par le financeur ou le prestataire. Seules les règles fixées peuvent le déplacer." },
-        { q: "Et si le financeur ne valide jamais ?", a: "Choisissez des valideurs ou une vérification automatique plutôt que le financeur seul, et fixez des échéances. L'historique montre qui attend qui." },
-        { q: "Le financeur peut-il reprendre l'argent ?", a: "Seulement ce qui n'a pas été versé, en annulant le reste de l'entente. Les parts versées appartiennent au prestataire pour de bon." },
-        { q: "Qu'est-ce qu'un oracle ?", a: "Un service qui transmet au contrat un fait public (une pull request fusionnée, une version publiée) pour qu'il verse les fonds sans signature humaine." },
-        { q: "MilestoneMint prend-il une commission ?", a: "Non. Le prestataire reçoit 100 % de chaque part ; sur un vrai réseau, le seul coût est le frais de transaction (gas)." },
+        { q: "Est-ce de l'argent réel ?", a: "Non. C'est une démo sur testnet : fonds simulés, et rien ne quitte votre navigateur." },
+        { q: "Et si le financeur ne valide jamais ?", a: "Choisissez plutôt des valideurs ou une vérification automatique, et fixez des échéances." },
+        { q: "Le financeur peut-il reprendre l'argent ?", a: "Seulement ce qui n'a pas été versé. Les parts versées restent au prestataire." },
+        { q: "MilestoneMint prend-il une commission ?", a: "Non. Le prestataire reçoit 100 % de chaque part ; seul coût : les frais de réseau (gas)." },
       ],
     },
-    closing: { title: "Bloquez votre premier budget en deux minutes.", body: "Jouez le financeur, le prestataire et les valideurs d'une traite. Tout est simulé.", cta: "Lancer la démo" },
+    closing: { title: "Bloquez votre premier budget en deux minutes.", cta: "Lancer la démo" },
   },
 
   how: {
-    eyebrow: "Fonctionnement",
     title: "Le séquestre, un jalon à la fois",
-    intro:
-      "MilestoneMint, c'est un petit contrat par entente. Il détient le budget, connaît le plan des jalons et qui peut valider chaque étape, et ne verse ou ne rembourse que selon ces règles. Voici tout ce qu'il fait, en termes simples.",
+    intro: "Un petit contrat par entente détient le budget et ne verse que selon ses règles.",
     roles: {
       title: "Trois rôles",
       items: [
-        { title: "Financeur", body: "Bloque le budget, rédige le plan, peut demander des modifications, envoyer des rappels et annuler ce qui reste." },
-        { title: "Prestataire", body: "Réalise le travail, remet chaque jalon avec une preuve et reçoit chaque part directement." },
-        { title: "Valideurs", body: "Approuvent les jalons. Avec une règle k sur n (une multisignature), le versement exige k d'entre eux." },
+        { title: "Financeur", body: "Bloque le budget et rédige le plan." },
+        { title: "Prestataire", body: "Livre chaque jalon et reçoit sa part." },
+        { title: "Valideurs", body: "Valident ; k sur n doivent signer (une multisignature)." },
       ],
     },
     states: {
       title: "La vie d'un jalon",
-      intro: "Chaque jalon passe par les mêmes quelques états. L'argent ne bouge que sur les deux flèches épaisses.",
+      intro: "L'argent ne bouge que sur les deux flèches épaisses.",
       labels: {
         locked: "Bloqué",
         submitted: "En revue",
@@ -171,19 +156,19 @@ const fr: Dictionary = {
         resubmit: "nouvelle remise",
         cancel: "annulation",
       },
-      caption: "L'argent bloqué ou en revue est toujours en séquestre. L'argent versé appartient au prestataire ; l'argent remboursé est revenu au financeur.",
+      caption: "L'argent bloqué ou en revue est toujours en séquestre.",
     },
     rules: {
       title: "Trois façons de valider",
       items: [
-        { title: "Le financeur approuve", body: "Une seule signature. Idéal pour les petites primes, quand le financeur peut juger le travail directement." },
-        { title: "k valideurs sur n", body: "Un comité (par exemple 2 mentors sur 3). Chaque approbation est une signature on-chain ; celle qui atteint k verse aussi la part, dans la même transaction." },
-        { title: "Vérification automatique", body: "Un oracle lit un fait public comme « PR n° 412 fusionnée ». N'importe qui peut lancer la vérification ; si la condition n'est pas encore remplie, rien ne bouge et on peut réessayer plus tard." },
+        { title: "Le financeur approuve", body: "Une seule signature. Idéal pour les petites primes." },
+        { title: "k valideurs sur n", body: "La signature qui atteint k verse aussi la part." },
+        { title: "Vérification automatique", body: "Un oracle (un service qui transmet un fait public) la confirme. Pas encore ? On réessaie plus tard." },
       ],
     },
     example: {
       title: "Un exemple concret",
-      intro: "Une subvention de 6 000 tUSDC pour le mode hors ligne du wiki, validée par trois mentors (2 sur 3 doivent signer).",
+      intro: "Une subvention de 6 000 tUSDC, validée par 2 mentors sur 3.",
       headers: ["Jalon", "Part", "Montant", "Validé par"],
       rows: [
         ["Spécification et RFC", "15 %", "900 tUSDC", "2 valideurs sur 3"],
@@ -191,19 +176,19 @@ const fr: Dictionary = {
         ["Interface de résolution des conflits", "30 %", "1 800 tUSDC", "2 valideurs sur 3"],
         ["Documentation et version", "20 %", "1 200 tUSDC", "Vérification automatique : version publiée"],
       ],
-      note: "Les parts doivent totaliser exactement 100 %. Quand un montant ne se divise pas exactement, le dernier jalon prend les quelques unités restantes : la somme des parts égale toujours le total.",
+      note: "Les parts totalisent exactement 100 % ; le dernier jalon prend l'arrondi.",
     },
     deadlines: {
       title: "Échéances, rappels et remboursements",
       items: [
-        "Chaque jalon a une échéance. Passé ce délai sans remise, le jalon apparaît en retard des deux côtés.",
-        "Le financeur peut envoyer un rappel (hors chaîne, consigné dans l'historique).",
-        "Le financeur peut annuler le reste de l'entente : chaque jalon non versé est remboursé en une seule transaction. Les parts versées ne sont jamais reprises, et une remise en revue est aussi remboursée : réglez les revues d'abord.",
+        "Passé son échéance, un jalon apparaît en retard ; le financeur peut envoyer un rappel.",
+        "Annuler rembourse tout ce qui n'est pas versé, même un jalon en revue.",
       ],
     },
     dev: {
       title: "Pour les développeurs",
-      intro: "L'interface du contrat que la démo simule. La couche de données de la démo (src/lib/demo) la reproduit, une fonction par changement d'état : wagmi et viem pourraient la remplacer sans toucher à l'interface.",
+      intro: "La couche de données de la démo reproduit le contrat, une fonction par changement d'état.",
+      show: "Voir l'interface du contrat",
       mapping: [
         ["lockFunds", "Déployer l'entente et déposer le budget", "lockAgreement()"],
         ["submit", "Le prestataire déclare un jalon livré", "submitMilestone()"],
@@ -214,16 +199,14 @@ const fr: Dictionary = {
       ] as [string, string, string][],
       headers: ["Fonction", "Ce qu'elle fait", "Équivalent dans la démo"],
     },
-    cta: { title: "Voyez-le en action", body: "Ouvrez la démo et versez un jalon vous-même.", button: "Lancer la démo" },
+    cta: { title: "Voyez-le en action", button: "Lancer la démo" },
   },
 
   credits: {
     title: "Crédits",
-    intro: "MilestoneMint est open source et construit par la communauté Monark. Voici les personnes et les projets dont le travail figure sur ce site.",
     photosTitle: "Photographie",
     photosBody: "Toutes les photos proviennent d'Unsplash, sous la licence gratuite Unsplash.",
     photoBy: "Photo de {name}",
-    usedOn: "Page d'accueil, « Pensé pour le travail qui avance par étapes »",
     typeTitle: "Typographie et icônes",
     typeItems: [
       "Nunito Sans, par Vernon Adams, Jacques Le Bailly et Manvel Shmavonyan (SIL Open Font License), via Google Fonts.",
@@ -231,7 +214,7 @@ const fr: Dictionary = {
       "Diagrammes dessinés en code pour ce site.",
     ],
     brandTitle: "Marque Monark",
-    brandBody: "Le papillon Monark, les logos, l'illustration en maillage et les icônes sociales appartiennent à Monark et sont utilisés ici selon ses lignes directrices de marque.",
+    brandBody: "Le papillon Monark, les logos, l'illustration en maillage et les icônes sociales appartiennent à Monark.",
   },
 
   pricing: {
@@ -267,8 +250,7 @@ const fr: Dictionary = {
     close: "Fermer",
     gate: {
       title: "Connectez-vous pour voir vos ententes",
-      body: "Connectez un portefeuille de démo pour voir vos ententes. Rien n'est signé pour de vrai.",
-      features: ["Quatre ententes d'exemple : subventions, prime et travaux", "Jouez le financeur, le prestataire et les valideurs", "Chaque transaction peut réussir ou échouer"],
+      body: "Rien n'est signé pour de vrai.",
       connect: "Connecter le portefeuille de démo",
       rejected: "Vous avez refusé la demande de connexion. Rien n'a été partagé.",
     },
@@ -311,7 +293,7 @@ const fr: Dictionary = {
       confirmed: "Confirmée",
       failed: "Échec",
       rejected: "Vous avez refusé la demande dans votre portefeuille. Rien n'a été envoyé.",
-      reverted: "La transaction a échoué sur le réseau simulé. Rien n'a changé ; tout est exactement comme avant.",
+      reverted: "La transaction a échoué sur le réseau simulé. Rien n'a changé.",
       retry: "Réessayer",
       dismiss: "Fermer",
     },
@@ -319,13 +301,13 @@ const fr: Dictionary = {
       title: "Réglages de démo",
       open: "Réglages de démo",
       slow: "Réseau lent",
-      slowHint: "Les transactions prennent de 3 à 6 secondes.",
+      slowHint: "Les transactions prennent 3 à 6 secondes.",
       failNext: "Faire échouer la prochaine transaction",
-      failNextHint: "La prochaine transaction sera annulée par le réseau.",
+      failNextHint: "La prochaine transaction échoue.",
       reset: "Réinitialiser la démo",
-      resetHint: "Retrouvez les quatre ententes d'exemple et effacez vos changements.",
+      resetHint: "Retrouvez les quatre exemples.",
       resetConfirm: "Tout réinitialiser ?",
-      resetConfirmBody: "Vos ententes et votre historique dans ce navigateur seront remplacés par les exemples.",
+      resetConfirmBody: "Vos changements seront remplacés.",
       resetDo: "Réinitialiser",
       cancel: "Annuler",
       resetDone: "Démo réinitialisée. Les exemples sont de retour.",
@@ -337,7 +319,6 @@ const fr: Dictionary = {
     rules: { funder: "Validé par le financeur", reviewers: "{k} valideurs sur {n}", check: "Vérification automatique" },
     dashboard: {
       title: "Vos ententes",
-      greeting: "Connecté en tant que {name}",
       create: "Nouvelle entente",
       summary: {
         label: "Résumé",
@@ -346,10 +327,11 @@ const fr: Dictionary = {
         waiting: "En attente de vous",
         overdue: "En retard",
         usdNote: "En dollars américains, aux prix de référence du testnet.",
+        usdInfo: "À propos de ces montants",
       },
       attention: {
         title: "À traiter",
-        empty: "Rien ne vous attend. Bien joué.",
+        empty: "Rien ne vous attend.",
         kinds: {
           review: "Examiner la remise",
           sign: "Votre signature est attendue",
@@ -364,9 +346,9 @@ const fr: Dictionary = {
         title: "Ententes",
         filterLabel: "Afficher les ententes où vous êtes",
         filters: { all: "Toutes", funder: "Financeur", builder: "Prestataire", reviewer: "Valideur" },
-        empty: "Vous n'avez encore aucune entente. Créez-en une, ou réinitialisez la démo pour retrouver les exemples.",
+        empty: "Aucune entente pour l'instant.",
         emptyFilter: "Aucune entente ici pour l'instant.",
-        progress: "Jalons versés : {done} sur {n}",
+        progress: "{done} sur {n} versés",
         you: "Vous : {role}",
         next: "Prochain : {title}",
         open: "Ouvrir l'entente",
@@ -381,7 +363,6 @@ const fr: Dictionary = {
     },
     composer: {
       title: "Nouvelle entente",
-      intro: "Bloquez un budget et découpez-le en jalons. Le prestataire voit dès le départ que l'argent est là.",
       back: "Retour à vos ententes",
       templates: {
         title: "Partir de",
@@ -436,7 +417,8 @@ const fr: Dictionary = {
       },
       milestones: {
         title: "Jalons",
-        intro: "Chaque jalon reçoit une part du budget, une échéance et une règle qui dit qui le valide.",
+        intro: "Chaque jalon reçoit une part du budget, une échéance et une règle de validation.",
+        info: "À propos des jalons",
         n: "Jalon {n}",
         add: "Ajouter un jalon",
         remove: "Retirer le jalon {n}",
@@ -456,7 +438,7 @@ const fr: Dictionary = {
         reviewerAddress: "Adresse du valideur {n}",
         addReviewer: "Ajouter un valideur",
         removeReviewer: "Retirer le valideur {n}",
-        condition: "Condition vérifiée par l'oracle",
+        condition: "Condition de l'oracle",
         conditionPh: "p. ex. Pull request n° 120 fusionnée dans votre dépôt",
       },
       ruler: {
@@ -468,10 +450,8 @@ const fr: Dictionary = {
       review: {
         title: "Récapitulatif",
         total: "Total à bloquer",
-        after: "Solde après blocage",
-        each: "Par jalon",
         lock: "Bloquer {amount}",
-        note: "Tout le budget passe de votre portefeuille au contrat de l'entente. Vous ne pourrez récupérer que ce qui n'aura pas été versé.",
+        note: "Vous ne pourrez récupérer que ce qui n'aura pas été versé.",
       },
       errors: {
         title: "Donnez un titre à l'entente.",
@@ -490,25 +470,26 @@ const fr: Dictionary = {
         summary: "Corrigez les champs signalés pour continuer.",
       },
       pending: "Blocage des fonds en séquestre…",
-      failed: "Le blocage a échoué sur le réseau simulé. Aucun fonds n'a quitté votre portefeuille.",
+      failed: "Le blocage a échoué sur le réseau simulé. Aucun fonds n'a bougé.",
     },
     agreement: {
       back: "Toutes les ententes",
       notFound: {
         title: "Cette entente est introuvable.",
-        body: "Elle a peut-être disparu lors de la réinitialisation de la démo.",
+        body: "Une réinitialisation de la démo l'a peut-être supprimée.",
         cta: "Retour à vos ententes",
       },
-      parties: { funder: "Financeur", builder: "Prestataire", contract: "Contrat", network: "Réseau", created: "Créée le" },
+      parties: { funder: "Financeur", builder: "Prestataire", contract: "Contrat" },
       actingAs: {
         label: "Vous agissez comme",
-        hint: "Dans l'app réelle, chacun signe depuis son propre portefeuille. Ici, vous pouvez jouer tous les rôles.",
+        hint: "Dans l'app réelle, chacun signe depuis son propre portefeuille.",
+        info: "À propos des rôles",
         you: "vous",
       },
-      budget: { title: "Budget", locked: "Bloqué en séquestre", inReview: "dont en revue", released: "Versé au prestataire", refunded: "Remboursé au financeur", of: "sur {total}" },
+      budget: { title: "Budget", locked: "Bloqué en séquestre", inReview: "dont en revue", released: "Versé", refunded: "Remboursé", of: "sur {total}" },
       tabs: { milestones: "Jalons", history: "Historique", details: "Détails" },
       banners: {
-        completed: "Tous les jalons ont été versés. Cette entente est terminée.",
+        completed: "Tous les jalons sont versés.",
         cancelled: "Cette entente a été annulée. Les jalons non versés sont revenus au financeur.",
       },
       milestone: {
@@ -517,7 +498,7 @@ const fr: Dictionary = {
         dueTomorrow: "demain",
         dueToday: "aujourd'hui",
         overdueBy: "{n} jours de retard",
-        share: "{pct} du budget",
+        share: "{pct}",
         signatures: "{n} signatures sur {k}",
         signed: "A signé",
         notSigned: "Pas encore",
@@ -528,15 +509,9 @@ const fr: Dictionary = {
         releasedOn: "Versé le {date}",
         refunded: "Remboursé au financeur",
         receipt: "Reçu",
-        noActionFor: {
-          funder: "Rien à faire pour le financeur sur ce jalon pour l'instant.",
-          builder: "Rien à faire pour le prestataire sur ce jalon pour l'instant.",
-          reviewer: "Rien à faire pour les valideurs sur ce jalon pour l'instant.",
-        },
         waitingBuilder: "En attente de la remise du prestataire.",
         waitingReview: "En attente de validation.",
         waitingCheck: "En attente de la vérification automatique.",
-        notSigner: "Ce jalon est validé par : {who}.",
         next: "Prochain jalon",
       },
       actions: {
@@ -553,7 +528,7 @@ const fr: Dictionary = {
       },
       submitDialog: {
         title: "Remettre « {milestone} »",
-        body: "Indiquez aux valideurs où trouver la preuve. La part reste bloquée jusqu'à la validation du jalon.",
+        body: "La part reste bloquée jusqu'à la validation.",
         link: "Lien vers la preuve",
         linkPh: "https://github.com/…",
         note: "Note pour les valideurs (facultatif)",
@@ -564,7 +539,7 @@ const fr: Dictionary = {
       },
       changesDialog: {
         title: "Demander des modifications sur « {milestone} »",
-        body: "Le prestataire verra votre note et pourra remettre à nouveau. L'argent reste bloqué.",
+        body: "L'argent reste bloqué.",
         note: "Ce qui doit changer",
         notePh: "Soyez précis, pour que la prochaine remise soit la bonne.",
         send: "Demander des modifications",
@@ -573,10 +548,10 @@ const fr: Dictionary = {
       },
       refundDialog: {
         title: "Annuler et rembourser le reste ?",
-        body: "Chaque jalon non versé revient au financeur en une seule transaction. C'est irréversible.",
+        body: "C'est irréversible.",
         returns: "Remboursé au financeur",
         stays: "Reste au prestataire (déjà versé)",
-        inReview: "Un jalon est en revue. L'annulation le rembourse aussi.",
+        inReview: "Le jalon en revue est aussi remboursé.",
         confirm: "Annuler et rembourser",
         back: "Garder l'entente",
       },
@@ -587,7 +562,7 @@ const fr: Dictionary = {
         check: "Interrogation de l'oracle…",
         refund: "Remboursement des jalons non versés…",
       },
-      checkFailed: "La vérification n'a pas abouti : {reason}. La part reste bloquée ; vous pourrez relancer plus tard.",
+      checkFailed: "La vérification n'a pas abouti : {reason}.",
       details: {
         summary: "Description",
         kind: "Type",
@@ -600,7 +575,7 @@ const fr: Dictionary = {
     },
     history: {
       title: "Historique",
-      empty: "Rien ne s'est encore passé. Bloquez le budget pour voir la première entrée.",
+      empty: "Rien ne s'est encore passé.",
       export: "Exporter en CSV",
       filterLabel: "Afficher",
       filters: { all: "Tout", money: "Argent", reviews: "Validations", other: "Rappels" },
@@ -620,13 +595,8 @@ const fr: Dictionary = {
       filename: "milestonemint-historique",
     },
     toasts: {
-      locked: "Fonds bloqués. Le prestataire voit le budget.",
-      submitted: "Remis pour revue.",
-      signed: "Signature enregistrée : {n} sur {k}.",
       released: "{amount} versés à {name}.",
-      changes: "Modifications demandées. Le prestataire est prévenu.",
       reminder: "Rappel envoyé à {name}.",
-      refunded: "{amount} remboursés à {name}.",
       csv: "Historique exporté.",
     },
   },

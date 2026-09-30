@@ -4,9 +4,9 @@ import { ArrowLeftIcon, LockIcon, PlusIcon, Trash2Icon } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, type ReactNode } from "react"
-import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
+import { InfoTip } from "@/components/ui/info-tip"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -24,7 +24,6 @@ import { formatPercent, formatToken } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 import { useAppCopy } from "./app-provider"
-import { Disclaimer } from "./disclaimer"
 import { TxFeedback } from "./tx-feedback"
 
 type RuleKind = Rule["kind"]
@@ -75,7 +74,7 @@ type Template = "grant" | "bounty" | "contract" | "blank"
 export function Composer() {
   const demo = useDemo()
   const router = useRouter()
-  const { app, locale, disclaimer } = useAppCopy()
+  const { app, locale } = useAppCopy()
   const c = app.composer
   const tx = useTx()
   const [template, setTemplate] = useState<Template>("grant")
@@ -218,7 +217,7 @@ export function Composer() {
       }
     )
     if (ok && newId) {
-      toast.success(app.toasts.locked)
+      // The agreement page opening on the locked budget is the confirmation.
       router.push(href(locale, `/app/agreement/${newId}`))
     }
   }
@@ -231,13 +230,10 @@ export function Composer() {
         <ArrowLeftIcon className="size-4" aria-hidden="true" />
         {c.back}
       </Link>
-      <div>
-        <h1 className="text-3xl font-extrabold tracking-display sm:text-4xl">{c.title}</h1>
-        <p className="mt-2 max-w-[60ch] text-muted-foreground">{c.intro}</p>
-      </div>
+      <h1 className="text-3xl font-extrabold tracking-display sm:text-4xl">{c.title}</h1>
 
       <div role="group" aria-label={c.templates.title} className="flex flex-col gap-2">
-        <p className="text-sm font-bold">{c.templates.title}</p>
+        <p className="sr-only">{c.templates.title}</p>
         <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
           {(["grant", "bounty", "contract", "blank"] as const).map((tpl) => (
             <button
@@ -332,11 +328,11 @@ export function Composer() {
 
           {/* Milestones */}
           <section aria-labelledby="ms-title" className="flex flex-col gap-4">
-            <div>
+            <div className="flex items-center gap-1">
               <h2 id="ms-title" className="text-lg font-bold">
                 {c.milestones.title}
               </h2>
-              <p className="text-sm text-muted-foreground">{c.milestones.intro}</p>
+              <InfoTip label={c.milestones.info}>{c.milestones.intro}</InfoTip>
             </div>
 
             <Ruler shares={shares} bpsTotal={bpsTotal} error={err("total")} />
@@ -459,24 +455,7 @@ export function Composer() {
               <dt className="text-muted-foreground">{c.review.total}</dt>
               <dd className="font-mono font-bold">{total && total > 0n ? formatToken(total, form.token, locale) : "—"}</dd>
             </div>
-            <div className="flex justify-between gap-3 py-2">
-              <dt className="text-muted-foreground">{c.review.after}</dt>
-              <dd className="font-mono">{total && total > 0n && total <= balance ? formatToken(balance - total, form.token, locale) : "—"}</dd>
-            </div>
           </dl>
-          <div>
-            <p className="text-xs font-bold text-muted-foreground">{c.review.each}</p>
-            <ol className="mt-2 flex flex-col gap-1.5 text-sm">
-              {form.milestones.map((m, i) => (
-                <li key={m.key} className="flex justify-between gap-3">
-                  <span className="min-w-0 truncate">
-                    {i + 1}. {m.title || t(c.milestones.n, { n: i + 1 })}
-                  </span>
-                  <span className="shrink-0 font-mono text-xs">{amounts ? formatToken(amounts[i] ?? 0n, form.token, locale) : "—"}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
           <p className="text-xs text-muted-foreground">{c.review.note}</p>
           {showErrors && !valid ? (
             <p role="alert" className="text-sm font-semibold text-destructive">
@@ -487,7 +466,6 @@ export function Composer() {
             <LockIcon aria-hidden="true" />
             {lockLabel}
           </Button>
-          <Disclaimer text={disclaimer} />
           <TxFeedback
             state={tx.state}
             pendingLabel={c.pending}
@@ -590,18 +568,19 @@ function ReviewersEditor({ m, error, onChange }: { m: MsForm; error?: string; on
         {m.reviewers.map((r, i) => (
           <li key={i} className="grid gap-2 sm:grid-cols-[1fr_1.4fr_auto] sm:items-end">
             <div className="flex flex-col gap-1">
-              <Label htmlFor={`${m.key}-rn-${i}`} className="text-xs">
+              <Label htmlFor={`${m.key}-rn-${i}`} className="sr-only">
                 {t(c.reviewerName, { n: i + 1 })}
               </Label>
-              <Input id={`${m.key}-rn-${i}`} value={r.name} onChange={(ev) => setReviewer(i, { name: ev.target.value })} aria-invalid={error && !r.name.trim() ? true : undefined} />
+              <Input id={`${m.key}-rn-${i}`} value={r.name} placeholder={t(c.reviewerName, { n: i + 1 })} onChange={(ev) => setReviewer(i, { name: ev.target.value })} aria-invalid={error && !r.name.trim() ? true : undefined} />
             </div>
             <div className="flex flex-col gap-1">
-              <Label htmlFor={`${m.key}-ra-${i}`} className="text-xs">
+              <Label htmlFor={`${m.key}-ra-${i}`} className="sr-only">
                 {t(c.reviewerAddress, { n: i + 1 })}
               </Label>
               <Input
                 id={`${m.key}-ra-${i}`}
                 value={r.address}
+                placeholder="0x…"
                 spellCheck={false}
                 className="font-mono text-xs"
                 onChange={(ev) => setReviewer(i, { address: ev.target.value })}

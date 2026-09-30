@@ -37,12 +37,11 @@ import {
 } from "@/lib/demo/ops"
 import { useDemo } from "@/lib/demo/store"
 import type { Agreement, Milestone, Party, Role, TxSummary } from "@/lib/demo/types"
-import { formatDate, formatDateTime, formatPercent, formatToken } from "@/lib/format"
+import { formatDate, formatPercent, formatToken } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 import { Amount } from "./amount"
 import { useAppCopy } from "./app-provider"
-import { Disclaimer } from "./disclaimer"
 import { ruleLabel, statusKey } from "./helpers"
 import { TxFeedback } from "./tx-feedback"
 
@@ -66,7 +65,7 @@ export function MilestoneCard({
   onReleased: (milestoneId: string) => void
 }) {
   const demo = useDemo()
-  const { app, locale, disclaimer } = useAppCopy()
+  const { app, locale } = useAppCopy()
   const c = app.agreement
   const mc = c.milestone
   const tx = useTx()
@@ -81,6 +80,8 @@ export function MilestoneCard({
   const days = daysUntil(m.deadline, now)
   const status = statusKey(m, now)
   const active = a.status === "active"
+  // Released or refunded: the card shrinks to title, amount, date and receipt (details stay in History).
+  const settled = m.status === "released" || m.status === "refunded"
   const amountText = formatToken(m.amount, a.token, locale)
   const k = threshold(m)
   const reviewers = m.rule.kind === "reviewers" ? m.rule.reviewers : []
@@ -112,7 +113,6 @@ export function MilestoneCard({
       { title: app.summaries.submit, rows: rows(), signer: signerFor(actor) },
       (hash) => {
         submitMilestone(a.id, m.id, { link, note }, actor.name, hash)
-        toast.success(app.toasts.submitted)
       }
     )
   }
@@ -133,8 +133,8 @@ export function MilestoneCard({
       (hash) => {
         approveMilestone(a.id, m.id, signer, hash)
         setFreshSigner(signer.address)
+        // A signature short of the threshold shows as a new seal; only a release gets a toast.
         if (willRelease) releaseToast()
-        else toast.success(t(app.toasts.signed, { n: m.approvals.length + 1, k }))
       },
       { skipPrompt }
     )
@@ -146,7 +146,6 @@ export function MilestoneCard({
     const actor = party(role) ?? a.funder
     await tx.run({ title: app.summaries.changes, rows: rows(), signer: signerFor(actor) }, (hash) => {
       requestChanges(a.id, m.id, note, actor.name, hash)
-      toast.success(app.toasts.changes)
     })
   }
 
@@ -228,7 +227,6 @@ export function MilestoneCard({
           </Button>
         )
       }
-      if (m.status === "submitted" && m.rule.kind === "reviewers") hint = t(mc.notSigner, { who: ruleLabel(m.rule, app.rules) })
       if ((m.status === "locked" || m.status === "changes") && !overdue) hint = mc.waitingBuilder
     }
     if (role === "reviewer") {
@@ -257,8 +255,6 @@ export function MilestoneCard({
             {c.actions.requestChanges}
           </Button>
         )
-      } else if (m.rule.kind !== "reviewers" && m.status !== "released" && m.status !== "refunded" && m.rule.kind !== "check") {
-        hint = t(mc.notSigner, { who: ruleLabel(m.rule, app.rules) })
       } else if (m.status === "locked" || m.status === "changes") hint = mc.waitingBuilder
     }
     if (m.status === "submitted" && m.rule.kind === "check") {
@@ -271,8 +267,8 @@ export function MilestoneCard({
       hint = null
     }
   }
-  // Approving, co-signing and running the check can all release money.
-  const valueMoving = active && m.status === "submitted" && buttons.length > 0
+  // Waiting notes only on the milestone that is up next, not repeated on every card.
+  if (!isNext) hint = null
 
   return (
     <li id={m.id} className={cn("scroll-mt-24 rounded-3xl border bg-card p-5 sm:p-6", isNext && active && "border-primary/60", m.status === "refunded" && "opacity-80")}>
@@ -299,7 +295,7 @@ export function MilestoneCard({
             </Badge>
           </div>
           <h3 className="mt-1.5 text-lg font-bold">{m.title}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{m.deliverable}</p>
+          {!settled ? <p className="mt-1 text-sm text-muted-foreground">{m.deliverable}</p> : null}
         </div>
         <div className="ml-[3.25rem] flex shrink-0 items-baseline gap-2 sm:ml-0 sm:block sm:text-right">
           <Amount value={m.amount} token={a.token} locale={locale} className="text-base font-bold sm:items-end" />
@@ -335,7 +331,8 @@ export function MilestoneCard({
         </div>
       </dl>
 
-      {m.rule.kind === "reviewers" && (m.status === "submitted" || m.status === "released") ? (
+      {/* Seals while signatures are collected, and right after the stamp that released the share. */}
+      {m.rule.kind === "reviewers" && (m.status === "submitted" || (m.status === "released" && fresh)) ? (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-muted/50 px-4 py-3">
           <Seals
             label={t(mc.signatures, { n: m.approvals.length, k })}
@@ -353,7 +350,7 @@ export function MilestoneCard({
         </div>
       ) : null}
 
-      {m.rule.kind === "check" ? (
+      {m.rule.kind === "check" && !settled ? (
         <p className="mt-4 flex items-start gap-2 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
           <CircleDashedIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
           <span>
@@ -363,7 +360,7 @@ export function MilestoneCard({
         </p>
       ) : null}
 
-      {m.submission && m.status !== "locked" ? (
+      {m.submission && m.status !== "locked" && !settled ? (
         <div className="mt-4 flex flex-col gap-1 text-sm">
           <p className="flex min-w-0 items-center gap-2">
             <LinkIcon className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
@@ -378,7 +375,6 @@ export function MilestoneCard({
               {m.submission.note}
             </p>
           ) : null}
-          <p className="text-xs text-muted-foreground">{formatDateTime(m.submission.at, locale)}</p>
         </div>
       ) : null}
 
@@ -400,7 +396,6 @@ export function MilestoneCard({
         <div className="mt-5 flex flex-col gap-3 border-t pt-4">
           {hint ? <p className="text-sm text-muted-foreground">{hint}</p> : null}
           {buttons.length ? <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">{buttons}</div> : null}
-          {valueMoving ? <Disclaimer text={disclaimer} /> : null}
         </div>
       ) : null}
 
