@@ -10,7 +10,7 @@ This repository is the **demo site**: a Next.js app with a fully simulated walle
 
 ## Run it locally
 
-Requires Node.js 22 and pnpm 10.
+Requires Node.js 24 and pnpm 10.
 
 ```sh
 pnpm install
@@ -81,7 +81,7 @@ Branding follows Monark's guidelines (cream / espresso tokens derived from Monar
 
 ## Deploy to Vercel
 
-Import the repository in Vercel and deploy with the framework defaults (Next.js, `pnpm install`, `pnpm build`). No `vercel.json` and no environment variables are required. The Node version is pinned in `package.json` (`engines.node: 22.x`).
+Import the repository in Vercel and deploy with the framework defaults (Next.js, `pnpm install`, `pnpm build`). No `vercel.json` and no environment variables are required. The Node version is pinned in `package.json` (`engines.node: 24.x`).
 
 ## License and credits
 
