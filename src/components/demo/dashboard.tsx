@@ -12,12 +12,15 @@ import {
   ScanSearchIcon,
 } from "lucide-react"
 import Link from "next/link"
-import { useState, type ReactNode } from "react"
+import { useState } from "react"
 
 import { BudgetTrack, Legend } from "@/components/diagrams/budget-track"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyMedia } from "@/components/ui/empty"
 import { InfoTip } from "@/components/ui/info-tip"
+import { Stat, StatGroup, StatLabel, StatValue } from "@/components/ui/stat"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { href } from "@/i18n/config"
 import { t } from "@/i18n/t"
 import { attentionFor, currentMilestone, daysUntil, portfolio, primaryRole, rolesOf, type AttentionKind } from "@/lib/demo/agreements"
@@ -65,20 +68,27 @@ export function Dashboard() {
       </div>
 
       <section aria-label={d.summary.label}>
-        <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <Stat
-            label={d.summary.locked}
-            value={formatUsd(stats.locked, locale)}
-            info={
-              <InfoTip label={d.summary.usdInfo} className="-my-2 size-7">
-                {d.summary.usdNote}
-              </InfoTip>
-            }
-          />
-          <Stat label={d.summary.released} value={formatUsd(stats.released, locale)} accent />
-          <Stat label={d.summary.waiting} value={String(stats.waiting)} />
-          <Stat label={d.summary.overdue} value={String(stats.overdue)} warn={stats.overdue > 0} />
-        </dl>
+        <StatGroup className="grid-cols-2">
+          <Stat>
+            <StatLabel>
+              {d.summary.locked}
+              <InfoTip label={d.summary.usdInfo}>{d.summary.usdNote}</InfoTip>
+            </StatLabel>
+            <StatValue>{formatUsd(stats.locked, locale)}</StatValue>
+          </Stat>
+          <Stat tone="primary">
+            <StatLabel>{d.summary.released}</StatLabel>
+            <StatValue>{formatUsd(stats.released, locale)}</StatValue>
+          </Stat>
+          <Stat>
+            <StatLabel>{d.summary.waiting}</StatLabel>
+            <StatValue>{stats.waiting}</StatValue>
+          </Stat>
+          <Stat tone={stats.overdue > 0 ? "warning" : "default"}>
+            <StatLabel>{d.summary.overdue}</StatLabel>
+            <StatValue>{stats.overdue}</StatValue>
+          </Stat>
+        </StatGroup>
       </section>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem] lg:items-start">
@@ -142,22 +152,21 @@ export function Dashboard() {
             <h2 id="list-title" className="text-xl font-bold">
               {d.list.title}
             </h2>
-            <div role="group" aria-label={d.list.filterLabel} className="-mx-1 flex gap-1 overflow-x-auto px-1 pb-1">
+            <ToggleGroup
+              type="single"
+              variant="chip"
+              size="sm"
+              aria-label={d.list.filterLabel}
+              value={filter}
+              onValueChange={(v) => v && setFilter(v as Filter)}
+              className="-mx-1 max-w-full flex-nowrap overflow-x-auto px-1 py-1"
+            >
               {(["all", "funder", "builder", "reviewer"] as const).map((f) => (
-                <button
-                  key={f}
-                  type="button"
-                  aria-pressed={filter === f}
-                  onClick={() => setFilter(f)}
-                  className={cn(
-                    "inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors duration-150",
-                    filter === f ? "border-foreground bg-foreground text-background" : "border-input text-muted-foreground hover:text-foreground"
-                  )}
-                >
+                <ToggleGroupItem key={f} value={f}>
                   {d.list.filters[f]}
-                </button>
+                </ToggleGroupItem>
               ))}
-            </div>
+            </ToggleGroup>
           </div>
           <Legend
             className="mt-3"
@@ -170,18 +179,24 @@ export function Dashboard() {
           />
 
           {mine.length === 0 ? (
-            <div className="mt-6 rounded-3xl border border-dashed p-8 text-center">
-              <InboxIcon className="mx-auto size-8 text-muted-foreground" aria-hidden="true" />
-              <p className="mx-auto mt-3 max-w-[40ch] text-muted-foreground">{d.list.empty}</p>
-              <Button asChild className="mt-5">
-                <Link href={href(locale, "/app/new")}>
-                  <PlusIcon aria-hidden="true" />
-                  {d.create}
-                </Link>
-              </Button>
-            </div>
+            <Empty className="mt-6">
+              <EmptyMedia>
+                <InboxIcon />
+              </EmptyMedia>
+              <EmptyDescription className="max-w-[40ch]">{d.list.empty}</EmptyDescription>
+              <EmptyContent>
+                <Button asChild>
+                  <Link href={href(locale, "/app/new")}>
+                    <PlusIcon aria-hidden="true" />
+                    {d.create}
+                  </Link>
+                </Button>
+              </EmptyContent>
+            </Empty>
           ) : shown.length === 0 ? (
-            <p className="mt-6 rounded-3xl border border-dashed p-6 text-center text-muted-foreground">{d.list.emptyFilter}</p>
+            <Empty size="sm" role="status" className="mt-6">
+              <EmptyDescription>{d.list.emptyFilter}</EmptyDescription>
+            </Empty>
           ) : (
             <ul className="mt-5 flex flex-col gap-3">
               {shown.map((a) => (
@@ -191,18 +206,6 @@ export function Dashboard() {
           )}
         </section>
       </div>
-    </div>
-  )
-}
-
-function Stat({ label, value, accent, warn, info }: { label: string; value: string; accent?: boolean; warn?: boolean; info?: ReactNode }) {
-  return (
-    <div className={cn("rounded-2xl border bg-card p-4", warn && "border-warning/50")}>
-      <dt className="flex items-center justify-between gap-1 text-xs font-semibold text-muted-foreground sm:text-sm">
-        {label}
-        {info}
-      </dt>
-      <dd className={cn("mt-1 font-mono text-xl font-bold tabular-nums sm:text-2xl", accent && "text-primary-ink", warn && "text-warning")}>{value}</dd>
     </div>
   )
 }

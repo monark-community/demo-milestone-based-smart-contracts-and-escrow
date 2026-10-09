@@ -7,7 +7,9 @@ import { notFound } from "next/navigation"
 import { Lifecycle } from "@/components/diagrams/lifecycle"
 import { Seals } from "@/components/diagrams/seals"
 import { HeroTrack } from "@/components/home/hero-track"
-import { SectionDivider } from "@/components/site/section-divider"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { SectionDivider } from "@/components/ui/section-divider"
+import { SectionHeading } from "@/components/ui/section-heading"
 import { Button } from "@/components/ui/button"
 import { href, isLocale } from "@/i18n/config"
 import { getDictionary } from "@/i18n"
@@ -75,9 +77,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       {/* Rules */}
       <section aria-labelledby="rules-title" className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
-        <h2 id="rules-title" className="text-3xl font-bold tracking-display sm:text-[2rem]">
-          {h.rules.title}
-        </h2>
+        <SectionHeading titleId="rules-title" title={h.rules.title} />
         <ul className="mt-10 grid gap-5 md:grid-cols-3">
           {h.rules.items.map((r, i) => (
             <li key={r.title} className="flex flex-col rounded-3xl border bg-card p-6">
@@ -140,25 +140,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       {/* FAQ */}
       <section aria-labelledby="faq-title" className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6 lg:py-20">
-        <h2 id="faq-title" className="text-3xl font-bold tracking-display sm:text-[2rem]">
-          {h.faq.title}
-        </h2>
-        <div className="mt-8 divide-y rounded-3xl border bg-card">
+        <SectionHeading titleId="faq-title" title={h.faq.title} />
+        <Accordion type="multiple" variant="plus" className="mt-8 rounded-3xl border bg-card">
           {h.faq.items.map((f) => (
-            <details key={f.q} className="group px-5 py-1 sm:px-6">
-              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 font-bold [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span aria-hidden="true" className="text-xl leading-none text-primary-ink transition-transform duration-200 group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <p className="pb-5 text-muted-foreground">{f.a}</p>
-            </details>
+            <AccordionItem key={f.q} value={f.q} className="px-5 py-1 sm:px-6">
+              <AccordionTrigger>{f.q}</AccordionTrigger>
+              <AccordionContent>{f.a}</AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
 
-      <SectionDivider />
+      <SectionDivider contained />
 
       {/* Closing */}
       <section aria-labelledby="closing-title" className="mx-auto w-full max-w-6xl px-4 py-14 text-center sm:px-6 lg:py-20">

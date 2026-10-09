@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { InfoTip } from "@/components/ui/info-tip"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { TxFeedback } from "@/components/ui/tx-feedback"
 import { WalletAddress, WalletAvatar } from "@/components/ui/wallet"
 import { href } from "@/i18n/config"
 import { currentMilestone, primaryRole, totalsOf } from "@/lib/demo/agreements"
@@ -21,11 +23,10 @@ import { formatDate, formatToken } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 import { Amount } from "./amount"
-import { useAppCopy } from "./app-provider"
+import { useAppCopy, useTxLabels } from "./app-provider"
 import { segmentsOf, trackLabel } from "./helpers"
 import { History } from "./history"
 import { MilestoneCard } from "./milestone-card"
-import { TxFeedback } from "./tx-feedback"
 
 const ROLES: Role[] = ["funder", "builder", "reviewer"]
 
@@ -100,23 +101,20 @@ export function AgreementView({ id, initialRole }: { id: string; initialRole?: s
                 {c.actingAs.hint}
               </InfoTip>
             </div>
-            <div role="radiogroup" aria-labelledby="acting-title" className="mt-3 grid grid-cols-3 gap-1 rounded-full border p-1">
+            <ToggleGroup
+              type="single"
+              variant="pill"
+              aria-labelledby="acting-title"
+              value={acting}
+              onValueChange={(v) => v && setRole(v as Role)}
+              className="mt-3 grid w-full grid-cols-3"
+            >
               {ROLES.map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  role="radio"
-                  aria-checked={acting === r}
-                  onClick={() => setRole(r)}
-                  className={cn(
-                    "inline-flex h-9 min-w-0 items-center justify-center rounded-full px-2 text-xs font-bold transition-colors duration-150 sm:text-sm",
-                    acting === r ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
+                <ToggleGroupItem key={r} value={r} className="min-w-0 px-2 text-xs sm:text-sm">
                   <span className="truncate">{app.roles[r]}</span>
-                </button>
+                </ToggleGroupItem>
               ))}
-            </div>
+            </ToggleGroup>
           </section>
 
           <BudgetCard agreement={a} fresh={fresh} acting={acting} now={now} />
@@ -191,6 +189,7 @@ function PartyTile({ label, party, you }: { label: string; party: Party; you?: s
 function BudgetCard({ agreement: a, fresh, acting, now }: { agreement: Agreement; fresh: string | null; acting: Role; now: Date }) {
   const demo = useDemo()
   const { app, locale } = useAppCopy()
+  const txLabels = useTxLabels()
   const c = app.agreement
   const tx = useTx()
   const [open, setOpen] = useState(false)
@@ -254,7 +253,11 @@ function BudgetCard({ agreement: a, fresh, acting, now }: { agreement: Agreement
             </Button>
           ) : null}
           <TxFeedback
-            state={tx.state}
+            {...txLabels}
+            phase={tx.state.phase}
+            hash={tx.state.hash}
+            error={tx.state.error}
+            reasons={{ rejected: app.tx.rejected, reverted: app.tx.reverted }}
             pendingLabel={c.pending.refund}
             onRetry={tx.state.phase === "failed" ? () => void doRefund() : undefined}
             onDismiss={tx.state.phase === "failed" || tx.state.phase === "confirmed" ? tx.reset : undefined}
@@ -263,9 +266,9 @@ function BudgetCard({ agreement: a, fresh, acting, now }: { agreement: Agreement
       ) : null}
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent closeLabel={app.close} className="sm:max-w-md">
+        <DialogContent closeLabel={app.close}>
           <DialogHeader>
-            <DialogTitle className="text-xl font-extrabold">{c.refundDialog.title}</DialogTitle>
+            <DialogTitle>{c.refundDialog.title}</DialogTitle>
             <DialogDescription>{c.refundDialog.body}</DialogDescription>
           </DialogHeader>
           <dl className="flex flex-col divide-y rounded-2xl border text-sm">

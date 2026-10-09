@@ -19,9 +19,11 @@ import { Seals } from "@/components/diagrams/seals"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { FieldError } from "@/components/ui/field-error"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { TxFeedback } from "@/components/ui/tx-feedback"
 import { TxStatus } from "@/components/ui/tx-status"
 import { t } from "@/i18n/t"
 import { daysUntil, isOverdue, threshold } from "@/lib/demo/agreements"
@@ -41,9 +43,8 @@ import { formatDate, formatPercent, formatToken } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
 import { Amount } from "./amount"
-import { useAppCopy } from "./app-provider"
+import { useAppCopy, useTxLabels } from "./app-provider"
 import { ruleLabel, statusKey } from "./helpers"
-import { TxFeedback } from "./tx-feedback"
 
 type Action = "submit" | "approve" | "changes" | "check" | "ask"
 
@@ -66,6 +67,7 @@ export function MilestoneCard({
 }) {
   const demo = useDemo()
   const { app, locale } = useAppCopy()
+  const txLabels = useTxLabels()
   const c = app.agreement
   const mc = c.milestone
   const tx = useTx()
@@ -400,12 +402,19 @@ export function MilestoneCard({
       ) : null}
 
       <TxFeedback
+        {...txLabels}
         className="mt-4"
-        state={tx.state}
+        phase={tx.state.phase}
+        hash={tx.state.hash}
+        error={tx.state.error}
         pendingLabel={
           action === "submit" ? c.pending.submit : action === "changes" ? c.pending.changes : action === "check" ? c.pending.check : c.pending.approve
         }
-        checkText={t(c.checkFailed, { reason: m.rule.kind === "check" ? lastCheckReason(a, m.id) : "" })}
+        reasons={{
+          rejected: app.tx.rejected,
+          reverted: app.tx.reverted,
+          check: t(c.checkFailed, { reason: m.rule.kind === "check" ? lastCheckReason(a, m.id) : "" }),
+        }}
         onRetry={tx.state.phase === "failed" ? retry : undefined}
         onDismiss={tx.state.phase === "failed" || tx.state.phase === "confirmed" ? tx.reset : undefined}
       />
@@ -453,7 +462,7 @@ function SubmitDialog({
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent closeLabel={app.close} className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl font-extrabold">{t(s.title, { milestone: milestone.title })}</DialogTitle>
+          <DialogTitle>{t(s.title, { milestone: milestone.title })}</DialogTitle>
           <DialogDescription>{s.body}</DialogDescription>
         </DialogHeader>
         <form
@@ -483,15 +492,11 @@ function SubmitDialog({
                 setError(false)
               }}
             />
-            {error ? (
-              <p id={`${id}-err`} className="text-sm text-destructive">
-                {s.errLink}
-              </p>
-            ) : null}
+            {error ? <FieldError id={`${id}-err`}>{s.errLink}</FieldError> : null}
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor={`${id}-note`}>{s.note}</Label>
-            <Textarea id={`${id}-note`} value={note} placeholder={s.notePh} onChange={(e) => setNote(e.target.value)} className="bg-card" />
+            <Textarea id={`${id}-note`} value={note} placeholder={s.notePh} onChange={(e) => setNote(e.target.value)}/>
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
@@ -518,7 +523,7 @@ function ChangesDialog({ open, milestone, onClose, onSubmit }: { open: boolean; 
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent closeLabel={app.close} className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl font-extrabold">{t(s.title, { milestone: milestone.title })}</DialogTitle>
+          <DialogTitle>{t(s.title, { milestone: milestone.title })}</DialogTitle>
           <DialogDescription>{s.body}</DialogDescription>
         </DialogHeader>
         <form
@@ -546,13 +551,8 @@ function ChangesDialog({ open, milestone, onClose, onSubmit }: { open: boolean; 
                 setNote(e.target.value)
                 setError(false)
               }}
-              className="min-h-24 bg-card"
             />
-            {error ? (
-              <p id={`${id}-err`} className="text-sm text-destructive">
-                {s.errNote}
-              </p>
-            ) : null}
+            {error ? <FieldError id={`${id}-err`}>{s.errNote}</FieldError> : null}
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
