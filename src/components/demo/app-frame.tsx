@@ -1,27 +1,57 @@
 "use client"
 
 import { Loader2Icon, WalletIcon, XCircleIcon } from "lucide-react"
-import Image from "next/image"
 import type { ReactNode } from "react"
+import { toast } from "sonner"
 
+import { AppLoading } from "@/components/ui/app-loading"
 import { Button } from "@/components/ui/button"
-import { useDemo, useStorageOk } from "@/lib/demo/store"
+import { DemoControls } from "@/components/ui/demo-controls"
+import { FieldError } from "@/components/ui/field-error"
+import { MonarkMark } from "@/components/ui/site-brand"
+import { resetDemo, setSettings, useDemo, useStorageOk } from "@/lib/demo/store"
+import { NETWORK_NAME } from "@/lib/demo/tokens"
 import { connectWallet } from "@/lib/demo/wallet"
 
 import { useAppCopy } from "./app-provider"
-import { DemoControls } from "./demo-controls"
 
 /** App chrome under the site header: one compact bar (network + demo controls); gates on wallet connection. */
 export function AppFrame({ children }: { children: ReactNode }) {
   const demo = useDemo()
   const storageOk = useStorageOk()
-  const { app } = useAppCopy()
+  const { app, seed, locale } = useAppCopy()
+  const c = app.controls
 
   return (
     <div className="flex flex-1 flex-col">
       <div className="border-b bg-secondary/40">
         <div className="mx-auto flex max-w-6xl items-center justify-end px-4 py-2 sm:px-6">
-          <DemoControls />
+          {demo ? (
+            <DemoControls
+              networkName={NETWORK_NAME}
+              slow={demo.settings.slow}
+              onSlowChange={(slow) => setSettings({ slow })}
+              failNext={demo.settings.failNext}
+              onFailNextChange={(failNext) => setSettings({ failNext })}
+              onReset={() => {
+                resetDemo(seed, locale)
+                toast.success(c.resetDone)
+              }}
+              title={c.title}
+              openLabel={c.open}
+              slowLabel={c.slow}
+              slowHint={c.slowHint}
+              failNextLabel={c.failNext}
+              failNextHint={c.failNextHint}
+              resetLabel={c.reset}
+              resetHint={c.resetHint}
+              resetConfirmTitle={c.resetConfirm}
+              resetConfirmBody={c.resetConfirmBody}
+              resetConfirmLabel={c.resetDo}
+              cancelLabel={c.cancel}
+              closeLabel={app.close}
+            />
+          ) : null}
         </div>
       </div>
       {!storageOk ? (
@@ -36,22 +66,6 @@ export function AppFrame({ children }: { children: ReactNode }) {
   )
 }
 
-export function AppLoading({ label }: { label: string }) {
-  return (
-    <div role="status" aria-live="polite" className="flex flex-col gap-4">
-      <span className="sr-only">{label}</span>
-      <div className="h-9 w-56 animate-pulse rounded-full bg-muted" />
-      <div className="grid gap-3 sm:grid-cols-4">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="h-24 animate-pulse rounded-2xl bg-muted" />
-        ))}
-      </div>
-      <div className="h-40 animate-pulse rounded-2xl bg-muted" />
-      <div className="h-40 animate-pulse rounded-2xl bg-muted" />
-    </div>
-  )
-}
-
 function ConnectGate() {
   const demo = useDemo()
   const { app } = useAppCopy()
@@ -61,7 +75,7 @@ function ConnectGate() {
 
   return (
     <section aria-labelledby="gate-title" className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center py-8 text-center">
-      <Image src="/brand/monark-mark.svg" alt="" width={56} height={56} unoptimized className="size-14" />
+      <MonarkMark className="size-14" />
       <h1 id="gate-title" className="mt-6 text-3xl font-extrabold tracking-display">
         {g.title}
       </h1>
@@ -84,10 +98,9 @@ function ConnectGate() {
       </Button>
       <div aria-live="polite" className="mt-4 min-h-6">
         {rejected ? (
-          <p role="alert" className="flex items-start gap-2 text-left text-sm text-destructive">
-            <XCircleIcon className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <FieldError icon={<XCircleIcon />} className="text-left">
             {g.rejected}
-          </p>
+          </FieldError>
         ) : null}
       </div>
     </section>

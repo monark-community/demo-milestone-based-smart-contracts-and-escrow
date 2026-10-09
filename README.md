@@ -67,8 +67,8 @@ State changes only after a transaction confirms. The "Acting as" switch on an ag
 src/
   app/[locale]/          # en + fr routes: home, how-it-works, app (dashboard, new, agreement/[id]), credits, pricing (unlinked), 404
   app/                   # globals.css (Monark tokens), sitemap, robots, icon
-  components/site/       # standard Monark header, footer, brand, Demo chip, locale switch, theme toggle
-  components/demo/       # the interactive app: dashboard, composer, agreement view, milestone card, history, wallet prompt
+  components/site/       # the @monark/ui site header wired to the locale, router and demo wallet
+  components/demo/       # the interactive app: dashboard, composer, agreement view, milestone card, history, app frame
   components/diagrams/   # budget track, seals, lifecycle, state machine (flat SVG/JSX)
   components/ui/         # shadcn + @monark/ui registry components
   i18n/                  # typed EN/FR dictionaries

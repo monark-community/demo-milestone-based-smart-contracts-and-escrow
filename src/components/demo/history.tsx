@@ -15,6 +15,8 @@ import { useState } from "react"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
+import { Empty, EmptyDescription } from "@/components/ui/empty"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { t } from "@/i18n/t"
 import { ORACLE_ACTOR } from "@/lib/demo/ops"
 import { TOKENS } from "@/lib/demo/tokens"
@@ -90,22 +92,21 @@ export function History({ agreement: a }: { agreement: Agreement }) {
         <h2 id="history-title" className="sr-only">
           {h.title}
         </h2>
-        <div role="group" aria-label={h.filterLabel} className="-mx-1 flex gap-1 overflow-x-auto px-1 pb-1">
+        <ToggleGroup
+          type="single"
+          variant="chip"
+          size="sm"
+          aria-label={h.filterLabel}
+          value={filter}
+          onValueChange={(v) => v && setFilter(v as Filter)}
+          className="-mx-1 max-w-full flex-nowrap overflow-x-auto px-1 py-1"
+        >
           {(["all", "money", "reviews", "other"] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              aria-pressed={filter === f}
-              onClick={() => setFilter(f)}
-              className={cn(
-                "inline-flex h-9 shrink-0 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors duration-150",
-                filter === f ? "border-foreground bg-foreground text-background" : "border-input text-muted-foreground hover:text-foreground"
-              )}
-            >
+            <ToggleGroupItem key={f} value={f}>
               {h.filters[f]}
-            </button>
+            </ToggleGroupItem>
           ))}
-        </div>
+        </ToggleGroup>
         <Button variant="outline" size="sm" onClick={exportCsv} disabled={a.history.length === 0}>
           <DownloadIcon aria-hidden="true" />
           {h.export}
@@ -113,7 +114,9 @@ export function History({ agreement: a }: { agreement: Agreement }) {
       </div>
 
       {events.length === 0 ? (
-        <p className="mt-6 rounded-3xl border border-dashed p-6 text-center text-muted-foreground">{h.empty}</p>
+        <Empty size="sm" role="status" className="mt-6">
+          <EmptyDescription>{h.empty}</EmptyDescription>
+        </Empty>
       ) : (
         <ol className="relative mt-6 flex flex-col gap-0">
           <span aria-hidden="true" className="absolute top-3 bottom-3 left-[17px] w-px bg-border" />

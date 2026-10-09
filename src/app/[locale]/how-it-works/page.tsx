@@ -1,10 +1,11 @@
-import { ArrowRightIcon, ChevronDownIcon, HardHatIcon, ScanSearchIcon, UserCheckIcon, UsersIcon, WalletIcon } from "lucide-react"
+import { ArrowRightIcon, HardHatIcon, ScanSearchIcon, UserCheckIcon, UsersIcon, WalletIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { StateMachine } from "@/components/diagrams/state-machine"
 import { Button } from "@/components/ui/button"
+import { Disclosure } from "@/components/ui/disclosure"
 import { href, isLocale } from "@/i18n/config"
 import { getDictionary } from "@/i18n"
 import { pageMetadata } from "@/lib/metadata"
@@ -134,12 +135,8 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
             {h.dev.title}
           </h2>
           <p className="mt-2 max-w-[68ch] text-muted-foreground">{h.dev.intro}</p>
-          <details className="group mt-6">
-            <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-full border px-4 text-sm font-bold hover:bg-muted [&::-webkit-details-marker]:hidden">
-              <ChevronDownIcon className="size-4 transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
-              {h.dev.show}
-            </summary>
-            <div className="mt-4 overflow-x-auto rounded-3xl border bg-background">
+          <Disclosure variant="pill" summary={h.dev.show} className="mt-6">
+            <div className="overflow-x-auto rounded-3xl border bg-background">
               <table className="w-full min-w-[34rem] text-left text-sm">
                 <thead className="bg-muted/60 text-xs text-muted-foreground">
                   <tr>
@@ -163,7 +160,7 @@ export default async function HowItWorksPage({ params }: PageProps<"/[locale]/ho
                 </tbody>
               </table>
             </div>
-          </details>
+          </Disclosure>
         </div>
       </section>
 

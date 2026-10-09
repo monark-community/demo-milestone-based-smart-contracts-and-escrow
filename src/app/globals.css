@@ -4,44 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * The @monark/ui `theme` item (Monark 2026: cream / espresso, flat orange,
+ * 1rem radius, Nunito Sans). Re-add it with
+ * `pnpm dlx shadcn@latest add @monark/theme --overwrite`; the only local
+ * change is --font-sans, which puts next/font's Nunito Sans first.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-nunito), "Nunito Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Mono", monospace;
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-primary-ink: var(--primary-ink);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
@@ -49,83 +18,149 @@
   --radius-2xl: calc(var(--radius) * 1.5);
   --radius-3xl: calc(var(--radius) * 2);
   --radius-4xl: calc(var(--radius) * 2.5);
+  --font-sans: var(--font-nunito), "Nunito Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Cascadia Mono", monospace;
+  --color-primary: var(--primary);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary-ink: var(--primary-ink);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-overlay: var(--overlay);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/*
- * Monark 2026 tokens (monark-brand-guidelines.md §3), pasted over the
- * @monark/ui base theme (theme.json). Every surface is derived from
- * --primary; --surface-tint stays at 1 (the Monark standard).
- */
 :root {
   --radius: 1rem;
   --surface-tint: 1;
   --primary: #f88d10;
-  --background: oklch(from var(--primary) 0.985 calc(c * 0.06 * var(--surface-tint)) h); /* cream, #FFF9F3 */
-  --foreground: oklch(from var(--primary) 0.18 calc(c * 0.05 * var(--surface-tint)) h); /* #15110E, 18:1 on background */
-  --card: oklch(from var(--primary) 0.998 calc(c * 0.02 * var(--surface-tint)) h); /* near-white, #FFFEFC */
+  --background: #fff9f3;
+  --foreground: #15110e;
+  --card: #fffefc;
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary-foreground: var(--foreground); /* dark on orange, 7.9:1. NOT white (2.4:1) */
-  --secondary: oklch(from var(--primary) 0.95 calc(c * 0.09 * var(--surface-tint)) h); /* #F7ECE4 */
+  --primary-foreground: var(--foreground);
+  --secondary: #f7ece4;
   --secondary-foreground: var(--foreground);
   --muted: var(--secondary);
-  --muted-foreground: oklch(from var(--primary) 0.47 calc(c * 0.09 * var(--surface-tint)) h); /* #625952, 6.5:1 on background */
+  --muted-foreground: #625952;
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
-  --destructive: #c81e0b; /* white text 5.8:1 */
-  --border: oklch(from var(--primary) 0.91 calc(c * 0.09 * var(--surface-tint)) h); /* decorative dividers, #E9DFD7 */
-  --input: oklch(from var(--primary) 0.6 calc(c * 0.06 * var(--surface-tint)) h); /* form borders, #857F7A, 3.9:1 (AA non-text) */
-  --ring: var(--primary);
-  --primary-ink: oklch(from var(--primary) min(l, 0.55) c h); /* orange-family TEXT and links, #B65000, 4.9:1 */
-  --chart-1: var(--primary);
+  --destructive: #c81e0b;
+  --destructive-foreground: #ffffff;
+  --border: #e9dfd7;
+  --input: #857f7a;
+  --ring: var(--primary-ink);
+  --primary-ink: #b65000;
+  --success: #2f7a4a;
+  --warning: #8a5a00;
+  --overlay: oklch(0 0 0 / 0.45);
+  --chart-1: #cd6600;
   --chart-2: #ef3620;
   --chart-3: #7a5c3e;
-  --chart-4: #c8a27a;
+  --chart-4: #9c8a52;
   --chart-5: #424242;
-  /* Status colours: muted green and amber, always paired with a text label. */
-  --success: #2f7a4a; /* 5.3:1 on cream */
-  --warning: #8a5a00; /* 5.6:1 on cream */
-  --sidebar: oklch(from var(--primary) 0.975 calc(c * 0.07 * var(--surface-tint)) h / 0.85);
+  --sidebar: #fdf5efd9;
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--foreground);
   --sidebar-accent: var(--secondary);
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
-  --sidebar-ring: var(--primary);
+  --sidebar-ring: var(--ring);
 }
 
 .dark {
-  --background: oklch(from var(--primary) 0.17 calc(c * 0.2 * var(--surface-tint)) h); /* espresso, #1A0B02 */
-  --foreground: oklch(from var(--primary) 0.965 calc(c * 0.14 * var(--surface-tint)) h); /* cream text, #FFF0E4, 17:1 */
-  --card: oklch(from var(--primary) 0.22 calc(c * 0.19 * var(--surface-tint)) h); /* #26170A */
+  --background: #1a0b02;
+  --foreground: #fff0e4;
+  --card: #26170a;
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary-foreground: var(--background); /* 8.1:1 */
-  --secondary: oklch(from var(--primary) 0.29 calc(c * 0.17 * var(--surface-tint)) h); /* #36281D */
+  --primary-foreground: var(--background);
+  --secondary: #36281d;
   --secondary-foreground: var(--foreground);
   --muted: var(--secondary);
-  --muted-foreground: oklch(from var(--primary) 0.74 calc(c * 0.16 * var(--surface-tint)) h); /* #B8A79A, 7.5:1 on card */
+  --muted-foreground: #b8a79a;
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
-  --destructive: #fc452f; /* 5.4:1 as text */
-  --border: oklch(from var(--primary) 0.34 calc(c * 0.17 * var(--surface-tint)) h); /* #433529 */
-  --input: oklch(from var(--primary) 0.52 calc(c * 0.16 * var(--surface-tint)) h); /* #756659, 3.5:1 */
-  --primary-ink: var(--primary); /* orange text is fine on espresso, 8.1:1 */
+  --destructive: #fc452f;
+  --destructive-foreground: var(--background);
+  --border: #433529;
+  --input: #756659;
+  --ring: var(--primary);
+  --primary-ink: var(--primary);
+  --success: #7cc79a;
+  --warning: #e9b949;
+  --chart-1: var(--primary);
   --chart-2: #fc452f;
   --chart-3: #c8a27a;
   --chart-4: #8a7a66;
   --chart-5: var(--foreground);
-  --success: #7cc79a;
-  --warning: #e9b949;
-  --sidebar: oklch(from var(--primary) 0.22 calc(c * 0.19 * var(--surface-tint)) h / 0.85);
+  --sidebar: #26170ad9;
   --sidebar-foreground: var(--foreground);
   --sidebar-primary-foreground: var(--background);
   --sidebar-accent: var(--secondary);
   --sidebar-accent-foreground: var(--foreground);
   --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+@supports (color: oklch(from red l c h)) {
+  :root {
+    --background: oklch(from var(--primary) 0.985 calc(c * 0.06 * var(--surface-tint)) h);
+    --foreground: oklch(from var(--primary) 0.18 calc(c * 0.05 * var(--surface-tint)) h);
+    --card: oklch(from var(--primary) 0.998 calc(c * 0.02 * var(--surface-tint)) h);
+    --secondary: oklch(from var(--primary) 0.95 calc(c * 0.09 * var(--surface-tint)) h);
+    --muted-foreground: oklch(from var(--primary) 0.47 calc(c * 0.09 * var(--surface-tint)) h);
+    --border: oklch(from var(--primary) 0.91 calc(c * 0.09 * var(--surface-tint)) h);
+    --input: oklch(from var(--primary) 0.6 calc(c * 0.06 * var(--surface-tint)) h);
+    --primary-ink: oklch(from var(--primary) min(l, 0.55) c h);
+    --chart-1: oklch(from var(--primary) min(l, 0.62) c h);
+    --sidebar: oklch(from var(--primary) 0.975 calc(c * 0.07 * var(--surface-tint)) h / 0.85);
+  }
+  .dark {
+    --background: oklch(from var(--primary) 0.17 calc(c * 0.2 * var(--surface-tint)) h);
+    --foreground: oklch(from var(--primary) 0.965 calc(c * 0.14 * var(--surface-tint)) h);
+    --card: oklch(from var(--primary) 0.22 calc(c * 0.19 * var(--surface-tint)) h);
+    --secondary: oklch(from var(--primary) 0.29 calc(c * 0.17 * var(--surface-tint)) h);
+    --muted-foreground: oklch(from var(--primary) 0.74 calc(c * 0.16 * var(--surface-tint)) h);
+    --border: oklch(from var(--primary) 0.34 calc(c * 0.17 * var(--surface-tint)) h);
+    --input: oklch(from var(--primary) 0.52 calc(c * 0.16 * var(--surface-tint)) h);
+    --primary-ink: var(--primary);
+    --chart-1: var(--primary);
+    --sidebar: oklch(from var(--primary) 0.22 calc(c * 0.19 * var(--surface-tint)) h / 0.85);
+  }
 }
 
 @layer base {
@@ -152,24 +187,64 @@
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+  :where(button, [role=button], [role=checkbox], [role=switch], [role=radio], [role=tab], [role=option], [role=menuitem], [role=menuitemcheckbox], [role=menuitemradio], [role=combobox]:not(input), select, summary, label[for], input[type=checkbox], input[type=radio], input[type=range], input[type=file], input[type=color]) {
+    cursor: pointer;
+  }
+  :where(:disabled, [aria-disabled=true], [data-disabled]) {
+    cursor: not-allowed;
+  }
 }
 
-@layer utilities {
-  .tracking-display {
-    letter-spacing: -0.02em;
+@utility tracking-display {
+  letter-spacing: -0.02em;
+}
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+}
+@utility animate-expand {
+  overflow: clip;
+  overflow-clip-margin: 4px;
+  &[data-state=open] {
+    animation: var(--animate-collapsible-down);
   }
-  /* Locked budget: flat diagonal stripes in the current text colour (an SVG mask, no gradient). Use on empty elements. */
-  .hatch {
-    background-color: color-mix(in oklch, currentColor 30%, transparent);
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M-2 2l4-4M0 8l8-8M6 10l4-4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
-    mask-size: 8px 8px;
+  &[data-state=closed] {
+    animation: var(--animate-collapsible-up);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-expand {
+    animation: none !important;
+  }
+}
+
+/* ---- MilestoneMint only ---- */
+
+/* Locked budget: flat diagonal stripes in the current text colour (an SVG mask, no gradient). Use on empty elements. */
+@utility hatch {
+  background-color: color-mix(in oklch, currentColor 30%, transparent);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M-2 2l4-4M0 8l8-8M6 10l4-4' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+  mask-size: 8px 8px;
 }
 
 /* A seal being stamped by a signature. */
@@ -206,15 +281,4 @@
 }
 .mm-pulse {
   animation: mm-pulse 1.4s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }

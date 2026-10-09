@@ -120,12 +120,12 @@ async function appFlows(page, v) {
   await page.goto(`${BASE}/${v.locale}/app/new`, { waitUntil: "networkidle" })
   await page.getByRole("heading", { level: 1 }).waitFor()
   await shot(page, v, "flow2-composer-grant", true)
-  await page.getByRole("button", { name: "Blank", exact: true }).click()
+  await page.getByRole("radio", { name: "Blank", exact: true }).click()
   await page.getByRole("button", { name: /^Lock/ }).click()
   await settle(page, 200)
   await page.evaluate(() => window.scrollTo(0, 0))
   await shot(page, v, "flow2-composer-errors", true)
-  await page.getByRole("button", { name: "Builder grant", exact: true }).click()
+  await page.getByRole("radio", { name: "Builder grant", exact: true }).click()
   await page.getByLabel("Share of budget (%)").first().fill("30")
   await settle(page, 300)
   await page.getByText(/not allocated yet|over the budget/).first().scrollIntoViewIfNeeded()
@@ -279,7 +279,7 @@ async function frenchFlow(page, v) {
   await page.evaluate(() => window.scrollTo(0, 0))
   await shot(page, v, "flow4-released", true)
   await page.goto(`${BASE}/fr/app/new`, { waitUntil: "networkidle" })
-  await page.getByRole("button", { name: "Travaux", exact: true }).click()
+  await page.getByRole("radio", { name: "Travaux", exact: true }).click()
   await shot(page, v, "flow2-composer-contract", true)
 }
 

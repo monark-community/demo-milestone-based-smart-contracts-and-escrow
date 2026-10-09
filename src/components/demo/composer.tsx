@@ -7,9 +7,13 @@ import { useState, type ReactNode } from "react"
 
 import { Button } from "@/components/ui/button"
 import { InfoTip } from "@/components/ui/info-tip"
+import { FieldError } from "@/components/ui/field-error"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { TxFeedback } from "@/components/ui/tx-feedback"
 import { href } from "@/i18n/config"
 import { t } from "@/i18n/t"
 import { addDaysIso, FULL_BPS, splitByBps, todayIso } from "@/lib/demo/agreements"
@@ -23,8 +27,7 @@ import type { AgreementKind, Party, Rule, TokenSymbol } from "@/lib/demo/types"
 import { formatPercent, formatToken } from "@/lib/format"
 import { cn } from "@/lib/utils"
 
-import { useAppCopy } from "./app-provider"
-import { TxFeedback } from "./tx-feedback"
+import { useAppCopy, useTxLabels } from "./app-provider"
 
 type RuleKind = Rule["kind"]
 
@@ -75,6 +78,7 @@ export function Composer() {
   const demo = useDemo()
   const router = useRouter()
   const { app, locale } = useAppCopy()
+  const txLabels = useTxLabels()
   const c = app.composer
   const tx = useTx()
   const [template, setTemplate] = useState<Template>("grant")
@@ -232,30 +236,27 @@ export function Composer() {
       </Link>
       <h1 className="text-3xl font-extrabold tracking-display sm:text-4xl">{c.title}</h1>
 
-      <div role="group" aria-label={c.templates.title} className="flex flex-col gap-2">
-        <p className="sr-only">{c.templates.title}</p>
-        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-          {(["grant", "bounty", "contract", "blank"] as const).map((tpl) => (
-            <button
-              key={tpl}
-              type="button"
-              aria-pressed={template === tpl}
-              onClick={() => {
-                setTemplate(tpl)
-                setForm(fromTemplate(tpl))
-                setShowErrors(false)
-                tx.reset()
-              }}
-              className={cn(
-                "inline-flex h-10 shrink-0 items-center rounded-full border px-4 text-sm font-semibold transition-colors duration-150",
-                template === tpl ? "border-foreground bg-foreground text-background" : "border-input hover:bg-muted"
-              )}
-            >
-              {c.templates[tpl]}
-            </button>
-          ))}
-        </div>
-      </div>
+      <ToggleGroup
+        type="single"
+        variant="chip"
+        aria-label={c.templates.title}
+        value={template}
+        onValueChange={(v) => {
+          if (!v) return
+          const tpl = v as Template
+          setTemplate(tpl)
+          setForm(fromTemplate(tpl))
+          setShowErrors(false)
+          tx.reset()
+        }}
+        className="-mx-1 max-w-full flex-nowrap overflow-x-auto px-1 py-1"
+      >
+        {(["grant", "bounty", "contract", "blank"] as const).map((tpl) => (
+          <ToggleGroupItem key={tpl} value={tpl}>
+            {c.templates[tpl]}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
 
       <form
         noValidate
@@ -274,7 +275,7 @@ export function Composer() {
                 <Input id="f-title" value={form.title} placeholder={c.basics.namePh} onChange={(ev) => setField("title", ev.target.value)} {...invalid(err("title"), "f-title")} />
               </Field>
               <Field id="f-summary" label={c.basics.summary} className="sm:col-span-2">
-                <Textarea id="f-summary" value={form.summary} placeholder={c.basics.summaryPh} onChange={(ev) => setField("summary", ev.target.value)} className="min-h-16 bg-card" />
+                <Textarea id="f-summary" value={form.summary} placeholder={c.basics.summaryPh} onChange={(ev) => setField("summary", ev.target.value)} className="min-h-16" />
               </Field>
               <Field id="f-builder" label={c.basics.builderName} error={err("builderName")}>
                 <Input id="f-builder" value={form.builderName} placeholder={c.basics.builderNamePh} onChange={(ev) => setField("builderName", ev.target.value)} {...invalid(err("builderName"), "f-builder")} />
@@ -292,23 +293,21 @@ export function Composer() {
                 />
               </Field>
               <Field id="f-token" label={c.basics.token}>
-                <div id="f-token" role="radiogroup" aria-label={c.basics.token} className="grid grid-cols-3 gap-1 rounded-full border p-1">
+                <ToggleGroup
+                  id="f-token"
+                  type="single"
+                  variant="pill"
+                  aria-label={c.basics.token}
+                  value={form.token}
+                  onValueChange={(v) => v && setField("token", v as TokenSymbol)}
+                  className="grid w-full grid-cols-3"
+                >
                   {TOKEN_LIST.map((tk) => (
-                    <button
-                      key={tk}
-                      type="button"
-                      role="radio"
-                      aria-checked={form.token === tk}
-                      onClick={() => setField("token", tk)}
-                      className={cn(
-                        "h-8 rounded-full text-sm font-bold transition-colors",
-                        form.token === tk ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                      )}
-                    >
+                    <ToggleGroupItem key={tk} value={tk}>
                       {tk}
-                    </button>
+                    </ToggleGroupItem>
                   ))}
-                </div>
+                </ToggleGroup>
               </Field>
               <Field id="f-budget" label={c.basics.budget} error={err("budget")} hint={t(c.basics.balance, { amount: formatToken(balance, form.token, locale) })}>
                 <div className="relative">
@@ -360,7 +359,7 @@ export function Composer() {
                         <Input id={`${m.key}-title`} value={m.title} placeholder={c.milestones.titlePh} onChange={(ev) => setMs(m.key, { title: ev.target.value })} {...invalid(err(`${m.key}-title`), `${m.key}-title`)} />
                       </Field>
                       <Field id={`${m.key}-del`} label={c.milestones.deliverable} className="sm:col-span-6">
-                        <Textarea id={`${m.key}-del`} value={m.deliverable} placeholder={c.milestones.deliverablePh} onChange={(ev) => setMs(m.key, { deliverable: ev.target.value })} className="min-h-14 bg-card" />
+                        <Textarea id={`${m.key}-del`} value={m.deliverable} placeholder={c.milestones.deliverablePh} onChange={(ev) => setMs(m.key, { deliverable: ev.target.value })} className="min-h-14" />
                       </Field>
                       <Field id={`${m.key}-deadline`} label={c.milestones.deadline} error={err(`${m.key}-deadline`)} className="sm:col-span-3">
                         <Input id={`${m.key}-deadline`} type="date" min={addDaysIso(1)} value={m.deadline} onChange={(ev) => setMs(m.key, { deadline: ev.target.value })} {...invalid(err(`${m.key}-deadline`), `${m.key}-deadline`)} />
@@ -384,23 +383,20 @@ export function Composer() {
                         <p id={`${m.key}-rule-l`} className="text-sm font-semibold">
                           {c.milestones.rule}
                         </p>
-                        <div role="radiogroup" aria-labelledby={`${m.key}-rule-l`} className="flex flex-col gap-1 rounded-3xl border p-1 sm:flex-row sm:rounded-full">
+                        <ToggleGroup
+                          type="single"
+                          variant="pill"
+                          aria-labelledby={`${m.key}-rule-l`}
+                          value={m.rule}
+                          onValueChange={(v) => v && setMs(m.key, { rule: v as MsForm["rule"] })}
+                          className="h-auto w-full flex-col items-stretch rounded-3xl sm:h-10 sm:flex-row sm:rounded-full"
+                        >
                           {(["funder", "reviewers", "check"] as const).map((r) => (
-                            <button
-                              key={r}
-                              type="button"
-                              role="radio"
-                              aria-checked={m.rule === r}
-                              onClick={() => setMs(m.key, { rule: r })}
-                              className={cn(
-                                "h-9 flex-1 rounded-full px-3 text-sm font-bold transition-colors",
-                                m.rule === r ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                              )}
-                            >
+                            <ToggleGroupItem key={r} value={r} className="h-9 flex-1 sm:h-full">
                               {r === "funder" ? c.milestones.ruleFunder : r === "reviewers" ? c.milestones.ruleReviewers : c.milestones.ruleCheck}
-                            </button>
+                            </ToggleGroupItem>
                           ))}
-                        </div>
+                        </ToggleGroup>
                       </div>
                       {m.rule === "reviewers" ? (
                         <ReviewersEditor
@@ -458,18 +454,19 @@ export function Composer() {
           </dl>
           <p className="text-xs text-muted-foreground">{c.review.note}</p>
           {showErrors && !valid ? (
-            <p role="alert" className="text-sm font-semibold text-destructive">
-              {e.summary}
-            </p>
+            <FieldError>{e.summary}</FieldError>
           ) : null}
           <Button type="submit" size="lg" disabled={tx.busy}>
             <LockIcon aria-hidden="true" />
             {lockLabel}
           </Button>
           <TxFeedback
-            state={tx.state}
+            {...txLabels}
+            phase={tx.state.phase}
+            hash={tx.state.hash}
+            error={tx.state.error}
+            reasons={{ rejected: app.tx.rejected, reverted: c.failed }}
             pendingLabel={c.pending}
-            failedText={c.failed}
             onRetry={tx.state.phase === "failed" ? () => void submit() : undefined}
             onDismiss={tx.state.phase === "failed" ? tx.reset : undefined}
           />
@@ -494,9 +491,7 @@ function Field({ id, label, error, hint, className, children }: { id: string; la
       <Label htmlFor={id}>{label}</Label>
       {children}
       {error ? (
-        <p id={`${id}-err`} className="text-sm text-destructive">
-          {error}
-        </p>
+        <FieldError id={`${id}-err`}>{error}</FieldError>
       ) : hint ? (
         <p className="text-xs text-muted-foreground">{hint}</p>
       ) : null}
@@ -538,7 +533,7 @@ function Ruler({ shares, bpsTotal, error }: { shares: number[]; bpsTotal: number
           </span>
         ) : null}
       </div>
-      {error ? <p className="mt-2 text-sm text-destructive">{error}</p> : null}
+      <FieldError className="mt-2">{error}</FieldError>
     </div>
   )
 }
@@ -551,18 +546,13 @@ function ReviewersEditor({ m, error, onChange }: { m: MsForm; error?: string; on
     <div className="flex flex-col gap-3 rounded-2xl bg-muted/50 p-4 sm:col-span-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Label htmlFor={`${m.key}-k`}>{c.threshold}</Label>
-        <select
-          id={`${m.key}-k`}
-          value={m.threshold}
-          onChange={(ev) => onChange({ threshold: Number(ev.target.value) })}
-          className="h-9 rounded-full border border-input bg-card px-3 text-sm font-semibold"
-        >
+        <NativeSelect id={`${m.key}-k`} size="sm" value={m.threshold} onChange={(ev) => onChange({ threshold: Number(ev.target.value) })}>
           {m.reviewers.map((_, i) => (
-            <option key={i} value={i + 1}>
+            <NativeSelectOption key={i} value={i + 1}>
               {t(c.thresholdValue, { k: i + 1, n: m.reviewers.length })}
-            </option>
+            </NativeSelectOption>
           ))}
-        </select>
+        </NativeSelect>
       </div>
       <ul className="flex flex-col gap-3">
         {m.reviewers.map((r, i) => (
@@ -614,7 +604,7 @@ function ReviewersEditor({ m, error, onChange }: { m: MsForm; error?: string; on
         <PlusIcon aria-hidden="true" />
         {c.addReviewer}
       </Button>
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+      <FieldError>{error}</FieldError>
     </div>
   )
 }
