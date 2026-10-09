@@ -23,6 +23,7 @@ export function Amount({
       decimals={TOKENS[token].decimals}
       symbol={token}
       fractionDigits={2}
+      mono
       locale={intlLocale[locale]}
       usdValue={usd && token === "tETH" ? usdValue(value, token) : undefined}
       className={className}
