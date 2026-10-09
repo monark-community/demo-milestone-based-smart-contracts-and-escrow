@@ -4,10 +4,12 @@ import { notFound } from "next/navigation"
 
 import "../globals.css"
 
-import { SiteFooter } from "@/components/site/footer"
+import Link from "next/link"
+
 import { SiteHeader } from "@/components/site/header"
-import { ThemeProvider } from "@/components/site/theme"
-import { isLocale, locales, SITE_URL } from "@/i18n/config"
+import { MONARK_SOCIALS, SiteFooter } from "@/components/ui/site-footer"
+import { ThemeProvider } from "@/components/ui/theme-toggle"
+import { href, isLocale, locales, PROJECT_ID, REPO_URL, SITE_URL } from "@/i18n/config"
 import { getDictionary } from "@/i18n"
 
 const nunito = Nunito_Sans({
@@ -56,6 +58,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const { locale } = await params
   if (!isLocale(locale)) notFound()
   const dict = getDictionary(locale)
+  const c = dict.common
+  const f = c.footer
 
   return (
     <html lang={locale} className={nunito.variable} suppressHydrationWarning>
@@ -67,11 +71,41 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           >
             {dict.common.skip}
           </a>
-          <SiteHeader locale={locale} dict={dict} />
+          <SiteHeader
+            locale={locale}
+            common={c}
+            wallet={{
+              connect: dict.app.wallet.connect,
+              connecting: dict.app.wallet.connecting,
+              disconnect: dict.app.wallet.disconnect,
+              signIn: dict.app.summaries.signIn,
+              signInRow: dict.app.summaries.signInRow,
+              signInValue: dict.app.summaries.signInValue,
+            }}
+          />
           <main id="main" tabIndex={-1} className="flex flex-1 flex-col outline-none">
             {children}
           </main>
-          <SiteFooter locale={locale} dict={dict} />
+          <SiteFooter
+            product={c.product}
+            description={f.product}
+            links={[
+              { href: href(locale), label: c.nav.overview },
+              { href: href(locale, "/how-it-works"), label: c.nav.how },
+              { href: href(locale, "/app"), label: c.nav.demo },
+              { href: href(locale, "/credits"), label: c.nav.credits },
+            ]}
+            resources={[
+              { href: `https://www.monark.io/${locale}/project/${PROJECT_ID}`, label: f.projectPage },
+              { href: REPO_URL, label: f.repo },
+            ]}
+            socials={MONARK_SOCIALS.map((s) => ({ ...s, label: f.social[s.key as keyof typeof f.social] }))}
+            copyright={`© ${new Date().getFullYear()} ${f.legal}`}
+            demoNotice={c.demoBadge}
+            legalLinks={[{ href: href(locale, "/credits"), label: f.photos }]}
+            LinkComponent={Link}
+            labels={{ productNav: f.productNav, builtBy: f.builtBy, monarkHome: f.monarkHome, tagline: f.tagline, socials: f.socialLabel }}
+          />
         </ThemeProvider>
       </body>
     </html>
